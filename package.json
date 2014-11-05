@@ -1,0 +1,48 @@
+{
+  "name": "dent",
+  "version": "0.0.1",
+  "description": "(in)dent XML to make it pretty",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hildjj/dent.git"
+  },
+  "keywords": [
+    "xml",
+    "pretty",
+    "print",
+    "indent"
+  ],
+  "author": "Joe Hildebrand",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hildjj/dent/issues"
+  },
+  "homepage": "https://github.com/hildjj/dent",
+  "dependencies": {
+    "commander": "^2.5.0",
+    "libxmljs": "git://github.com/hildjj/libxmljs.git#namespace-declarations",
+    "word-wrap": "^0.1.3"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.8.0",
+    "grunt": "^0.4.5",
+    "grunt-check-dependencies": "^0.6.0",
+    "grunt-codo": "^0.2.0",
+    "grunt-coffeelint": "0.0.13",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
+    "grunt-express": "^1.4.1",
+    "grunt-release": "^0.7.0",
+    "grunt-shell": "^1.1.1",
+    "istanbul": "^0.3.2",
+    "jit-grunt": "^0.8.0",
+    "nodeunit": "^0.9.0"
+  }
+}
