@@ -118,7 +118,7 @@ class Denter
     tot = attrs.reduce (p, a) ->
       p + a.length
     , first
-    if tot > @right_margin
+    if (@right_margin > 0) and (tot > @right_margin)
       # no, they don't fit
       # each attribute on a new line, except first
       for a,i in attrs
@@ -156,22 +156,28 @@ class Denter
       out "</#{kind.name}>"
     else
       out "/>"
+    #
+    if parent_kind?.mixed and
+      (node.nextSibling()?.type() == "text") and
+      (!node.nextSibling().text().match(/^\./))
+      out " "
 
   print_text: (t, out, parent_kind, indent) ->
     ttl = t.trim().length
     # if we have element siblings, we're mixed
     # if there's non-whitespace, always output
     if !parent_kind.elements or ttl > 0
-      # front = t.match(/^\n\s*/)?[0] or (parent_kind.mixed and "F") or ""
-      # back = t.match(/\n\s*$/)?[0] or ""
-      t = t.replace /([^.])\s+/gm, "$1 "
-      # t = front + t.trim() + back
-      ttl = t.trim().length
+      # All whitespace not after a period gets collapsed to a single space
+      t = t.replace /([^.])\s+/g, "$1 "
+      # Newlines after a period get replaced with two spaces, except at the end.
+      t = t.replace /[.]\n\s*(?!$)/g, ".  "
+      t = t.trim()
+      ttl = t.length
 
       # are we going to go over the edge <foo>^t</foo>
       len = ttl + parent_kind.right_pos + parent_kind.name.length + 3
 
-      if len > @right_margin
+      if (@right_margin > 0) and (len > @right_margin)
         out "\n"
         t = ww t.trim(),
           width: @right_margin - (@indent_spaces*indent)
