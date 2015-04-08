@@ -1,3 +1,8 @@
+try
+  require('source-map-support').install();
+catch
+
+
 fs = require 'fs'
 assert = require 'assert'
 xmljs = require 'libxmljs'
@@ -212,9 +217,11 @@ class Denter
     @print doc.root(), out
     out "\n"
 
-@dent = (xml, opts, out=process.stdout.write.bind(process.stdout)) ->
+@dent = dent = (xml, opts, out=process.stdout.write.bind(process.stdout)) ->
   if typeof(opts) == 'function'
     out = opts
+    opts = {}
+  if not opts?
     opts = {}
   doc = switch
     when typeof(xml) == 'string', Buffer.isBuffer(xml)
@@ -227,6 +234,14 @@ class Denter
     else
       throw new Error('invalid argument (xml)')
   new Denter(opts).print_doc doc, out
+
+@dentToString = (xml, opts) ->
+  out = ""
+  collect = (all...) ->
+    for a in all
+      out += a
+  dent xml, opts, collect
+  out
 
 @dentFile = (file_name, opts, cb) ->
   if file_name == '-'

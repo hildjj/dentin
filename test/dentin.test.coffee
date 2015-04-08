@@ -1,12 +1,6 @@
-{dent} = require '../'
-
-out = ""
-rec = (others...) ->
-  for o in others
-    out += o
+{dentToString} = require '../'
 
 @pretty = (test) ->
-  out = ""
-  dent "<foo><bar/></foo>", rec
+  out = dentToString "<foo><bar/></foo>"
   test.deepEqual '<?xml version="1.0"?>\n<foo>\n  <bar/>\n</foo>\n', out
   test.done()
