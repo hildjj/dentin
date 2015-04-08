@@ -1,4 +1,4 @@
-In*dent* XML and HTML
+(In)dent XML and HTML
 =====================
 
 All of the pretty-printers I found for XML and HTML didn't work well enough, so
@@ -7,7 +7,7 @@ I spent way too much time putting this together.
 Usage
 -----
 
-    dent [options] [file...]
+    dentin [options] [file...]
 
     Options:
 

@@ -1,5 +1,5 @@
 {
-  "name": "dent",
+  "name": "dentin",
   "version": "0.0.1",
   "description": "(in)dent XML to make it pretty",
   "main": "index.js",
@@ -8,9 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hildjj/dent.git"
+    "url": "https://github.com/hildjj/dentin.git"
   },
   "keywords": [
+    "html",
     "xml",
     "pretty",
     "print",
@@ -19,9 +20,9 @@
   "author": "Joe Hildebrand",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hildjj/dent/issues"
+    "url": "https://github.com/hildjj/dentin/issues"
   },
-  "homepage": "https://github.com/hildjj/dent",
+  "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
     "commander": "^2.7.1",
     "libxmljs": "git://github.com/hildjj/libxmljs.git#namespace-declarations",
