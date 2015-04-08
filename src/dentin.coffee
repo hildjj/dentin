@@ -93,6 +93,8 @@ class Denter
     kind = @el_kind(node)
     kind.mixed = kind.mixed or parent_kind?.mixed
 
+    # If we're not outputting a version string, and this is the root, we don't
+    # want a newline.
     if not @noversion or parent_kind?
       out "\n"
     out spaces @indent_spaces*indent
