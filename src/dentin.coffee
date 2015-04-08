@@ -63,6 +63,7 @@ capture = () ->
 class Denter
   constructor: (opts) ->
     assert(opts?)
+    @html = opts.html ? false
     @noversion = opts.noversion ? false
     @right_margin = opts.margin ? 70
     @indent_spaces = opts.spaces ? 2
@@ -213,7 +214,17 @@ class Denter
 
   print_doc: (doc, out) ->
     if !@noversion
-      out "<?xml version=\"#{doc.version()}\"?>"
+      if @html
+        dtd = doc.getDtd()
+        if dtd?
+          out "<!DOCTYPE #{dtd.name}"
+          if dtd.externalId?
+            out " PUBLIC \"#{dtd.externalId}\""
+          if dtd.systemId?
+            out " \"#{dtd.systemId}\""
+          out ">"
+      else
+        out "<?xml version=\"#{doc.version()}\"?>"
     @print doc.root(), out
     out "\n"
 
