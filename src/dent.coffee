@@ -156,10 +156,8 @@ class Denter
       out "</#{kind.name}>"
     else
       out "/>"
-    #
-    if parent_kind?.mixed and
-      (node.nextSibling()?.type() == "text") and
-      (!node.nextSibling().text().match(/^\./))
+
+    if parent_kind?.mixed and (node.nextSibling()?.type() == "text") and (!node.nextSibling().text().match(/^\./))
       out " "
 
   print_text: (t, out, parent_kind, indent) ->
@@ -210,7 +208,10 @@ class Denter
 @dent = (xml, opts, out=process.stdout.write.bind(process.stdout)) ->
   doc = switch
     when typeof(xml) == 'string', Buffer.isBuffer(xml)
-      xmljs.parseXml xml
+      if opts.html
+        xmljs.parseHtml xml
+      else
+        xmljs.parseXml xml
     when xml instanceof xmljs.Document
       xml
     else
@@ -237,6 +238,7 @@ read_config = (opts, cb) ->
       opts.ignore = opts.ignore.concat config.ignore
       opts.spaces = config.spaces or opts.spaces
       opts.margin = config.margin or opts.margin
+      opts.html = !!config.html or opts.html
       cb(null, opts)
 
 pi = (n) ->
@@ -254,11 +256,15 @@ pi = (n) ->
     .option '-c, --config <file>', 'Config file to read [./.dent.json]', './.dent.json'
     .option '-m, --margin <int>', 'Right margin in spaces [78]', pi, 78
     .option '-s, --spaces <int>', 'Number of spaces to indent [2]', pi, 2
+    .option '--html', 'Parse and generate HTML instead of XML [look at filename]'
     .usage '[options] [file...]'
     .parse args
 
   if program.args.length == 0
     program.args.push '-'
+
+  if !program.html? and program.args[0].match(/.html?$/)
+      program.html = true
 
   read_config program, =>
     # ignore errors
