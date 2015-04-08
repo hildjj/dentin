@@ -1,4 +1,5 @@
 fs = require 'fs'
+assert = require 'assert'
 xmljs = require 'libxmljs'
 ww = require 'word-wrap'
 
@@ -56,9 +57,11 @@ capture = () ->
 
 class Denter
   constructor: (opts) ->
-    @right_margin = opts.margin
-    @indent_spaces = opts.spaces
-    @ignore = opts.ignore or []
+    assert(opts?)
+    @noversion = opts.noversion ? false
+    @right_margin = opts.margin ? 70
+    @indent_spaces = opts.spaces ? 2
+    @ignore = opts.ignore ? []
 
   el_kind: (el) ->
     children = el.childNodes()
@@ -90,7 +93,8 @@ class Denter
     kind = @el_kind(node)
     kind.mixed = kind.mixed or parent_kind?.mixed
 
-    out "\n"
+    if not @noversion or parent_kind?
+      out "\n"
     out spaces @indent_spaces*indent
 
     # <foo
@@ -201,14 +205,18 @@ class Denter
         out "<!-- #{node.text().trim()} -->"
 
   print_doc: (doc, out) ->
-    out "<?xml version=\"#{doc.version()}\"?>"
+    if !@noversion
+      out "<?xml version=\"#{doc.version()}\"?>"
     @print doc.root(), out
     out "\n"
 
 @dent = (xml, opts, out=process.stdout.write.bind(process.stdout)) ->
+  if typeof(opts) == 'function'
+    out = opts
+    opts = {}
   doc = switch
     when typeof(xml) == 'string', Buffer.isBuffer(xml)
-      if opts.html
+      if opts?.html
         xmljs.parseHtml xml
       else
         xmljs.parseXml xml
@@ -256,6 +264,7 @@ pi = (n) ->
     .option '-c, --config <file>', 'Config file to read [./.dent.json]', './.dent.json'
     .option '-m, --margin <int>', 'Right margin in spaces [78]', pi, 78
     .option '-s, --spaces <int>', 'Number of spaces to indent [2]', pi, 2
+    .option '-n, --noversion', 'Don\'t output xml version prefix [false]'
     .option '--html', 'Parse and generate HTML instead of XML [look at filename]'
     .usage '[options] [file...]'
     .parse args

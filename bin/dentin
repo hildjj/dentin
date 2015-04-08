@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var dent = require('../lib/dent');
+var dent = require('../lib/dentin');
 dent.cmd(process.argv, function(er) {
   if (er) {
     console.error(er);
