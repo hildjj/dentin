@@ -1,6 +1,6 @@
 {
   "name": "dentin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "(in)dent XML to make it pretty",
   "main": "index.js",
   "scripts": {
