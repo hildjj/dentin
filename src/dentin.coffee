@@ -269,7 +269,7 @@ collect = (val, memo) ->
   memo.push val
   memo
 
-@read_config = read_config = (opts, cb) ->
+@read_config = (opts, cb) ->
   cfg = opts?.config ? DEFAULT_CONFIG
   if not cfg?
     return cb(null, opts)
@@ -277,13 +277,16 @@ collect = (val, memo) ->
     if !exists then return cb(null, opts)
     fs.readFile cfg, (err, data) ->
       if err? then return cb(err)
-      config = JSON.parse data
-      opts.ignore = opts.ignore.concat config.ignore
-      opts.spaces = config.spaces or opts.spaces
-      opts.margin = config.margin or opts.margin
-      opts.html = !!config.html or opts.html
-      opts.noversion = !!config.noversion or opts.noversion
-      cb(null, opts)
+      try
+        config = JSON.parse data
+        opts.ignore = opts.ignore.concat config.ignore
+        opts.spaces = config.spaces or opts.spaces
+        opts.margin = config.margin or opts.margin
+        opts.html = !!config.html or opts.html
+        opts.noversion = !!config.noversion or opts.noversion
+        cb(null, opts)
+      catch er
+        cb(er)
 
 pi = (n) ->
   parseInt n
@@ -314,8 +317,10 @@ pi = (n) ->
   if !program.html? and program.args[0].match(/.html?$/)
     program.html = true
 
-  read_config program, =>
-    # ignore errors
+  @read_config program, (er) =>
+    if er?
+      return process.stderr.write "#{program.config}: #{er.message}\n"
+
     for d in program.args
       @dentFile d, program, (er, output) ->
       if er?
