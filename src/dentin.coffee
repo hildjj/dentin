@@ -1,5 +1,5 @@
 try
-  require('source-map-support').install();
+  require('source-map-support').install()
 catch
 
 
@@ -7,6 +7,8 @@ fs = require 'fs'
 assert = require 'assert'
 xmljs = require 'libxmljs'
 ww = require 'word-wrap'
+
+DEFAULT_CONFIG = "./.dentin.json"
 
 ESCAPES =
   '&': '&amp;'
@@ -169,7 +171,9 @@ class Denter
     else
       out "/>"
 
-    if parent_kind?.mixed and (node.nextSibling()?.type() == "text") and (!node.nextSibling().text().match(/^\./))
+    if (parent_kind?.mixed and
+        (node.nextSibling()?.type() == "text") and
+        (!node.nextSibling().text().match(/^\./)))
       out " "
 
   print_text: (t, out, parent_kind, indent) ->
@@ -265,16 +269,20 @@ collect = (val, memo) ->
   memo.push val
   memo
 
-read_config = (opts, cb) ->
-  fs.exists opts.config, (exists) ->
+@read_config = read_config = (opts, cb) ->
+  cfg = opts?.config ? DEFAULT_CONFIG
+  if not cfg?
+    return cb(null, opts)
+  fs.exists cfg, (exists) ->
     if !exists then return cb(null, opts)
-    fs.readFile opts.config, (err, data) ->
+    fs.readFile cfg, (err, data) ->
       if err? then return cb(err)
       config = JSON.parse data
       opts.ignore = opts.ignore.concat config.ignore
       opts.spaces = config.spaces or opts.spaces
       opts.margin = config.margin or opts.margin
       opts.html = !!config.html or opts.html
+      opts.noversion = !!config.noversion or opts.noversion
       cb(null, opts)
 
 pi = (n) ->
@@ -287,13 +295,16 @@ pi = (n) ->
 
   program
     .version pkg.version
-    .option '-i, --ignore <name>', 'Ignore elements with name for wrapping []', collect, []
+    .option '-i, --ignore <name>',
+      'Ignore elements with name for wrapping []', collect, []
     .option '-o, --output <file>', 'Output file name [stdout]'
-    .option '-c, --config <file>', 'Config file to read [./.dent.json]', './.dent.json'
+    .option '-c, --config <file>', "Config file to read [#{DEFAULT_CONFIG}]",
+      './.dent.json'
     .option '-m, --margin <int>', 'Right margin in spaces [78]', pi, 78
     .option '-s, --spaces <int>', 'Number of spaces to indent [2]', pi, 2
     .option '-n, --noversion', 'Don\'t output xml version prefix [false]'
-    .option '--html', 'Parse and generate HTML instead of XML [look at filename]'
+    .option '--html',
+      'Parse and generate HTML instead of XML [look at filename]'
     .usage '[options] [file...]'
     .parse args
 
@@ -301,7 +312,7 @@ pi = (n) ->
     program.args.push '-'
 
   if !program.html? and program.args[0].match(/.html?$/)
-      program.html = true
+    program.html = true
 
   read_config program, =>
     # ignore errors
