@@ -299,7 +299,7 @@ pi = (n) ->
       'Ignore elements with name for wrapping []', collect, []
     .option '-o, --output <file>', 'Output file name [stdout]'
     .option '-c, --config <file>', "Config file to read [#{DEFAULT_CONFIG}]",
-      './.dent.json'
+      DEFAULT_CONFIG
     .option '-m, --margin <int>', 'Right margin in spaces [78]', pi, 78
     .option '-s, --spaces <int>', 'Number of spaces to indent [2]', pi, 2
     .option '-n, --noversion', 'Don\'t output xml version prefix [false]'
