@@ -171,9 +171,12 @@ class Denter
       new_indent = indent+1
 
       if kind.mixed
+        rm = @right_margin
+        @right_margin = -1
         cap = capture()
         for c in node.childNodes()
-          @_print c, cap, kind, new_indent
+          @_print c, cap, kind, 0
+        @right_margin = rm
         @_print_text cap.result, out, kind, new_indent
       else
         for c in node.childNodes()
