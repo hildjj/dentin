@@ -28,7 +28,7 @@ escape = (str) ->
     ESCAPES[m]
 
 escape_attr = (str) ->
-  str.replace /[&<>"]/g, (m) ->
+  str.replace /[&<>"']/g, (m) ->
     ESCAPES[m]
 
 attr_cmp = (a,b) ->
