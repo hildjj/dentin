@@ -17,6 +17,8 @@ ESCAPES =
   '"': '&quot;'
   "'": '&apos;'
 
+QUOTE = "'"
+
 SPACES = new Array(256).join ' '
 spaces = (n) ->
   SPACES.substring(0, n)
@@ -114,17 +116,17 @@ class Denter
     attrs = node.attrs().sort(attr_cmp).map (a) ->
       ns = a.namespace()
       if ns?
-        " #{ns.prefix()}:#{a.name()}=\"#{escape_attr(a.value())}\""
+        " #{ns.prefix()}:#{a.name()}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
       else
-        " #{a.name()}=\"#{escape_attr(a.value())}\""
+        " #{a.name()}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
 
     # < >xmlns:bar="urn:example:bar"
     decls = node.nsDecls().sort(ns_cmp).map (ns) ->
       p = ns.prefix()
       if p?
-        " xmlns:#{p}=\"#{ns.href()}\""
+        " xmlns:#{p}=#{QUOTE}#{ns.href()}#{QUOTE}"
       else
-        " xmlns=\"#{ns.href()}\""
+        " xmlns=#{QUOTE}#{ns.href()}#{QUOTE}"
     attrs = attrs.concat decls
 
     # will all the attributes and namespace declarations fit?
@@ -223,12 +225,12 @@ class Denter
         if dtd?
           out "<!DOCTYPE #{dtd.name}"
           if dtd.externalId?
-            out " PUBLIC \"#{dtd.externalId}\""
+            out " PUBLIC #{QUOTE}#{dtd.externalId}#{QUOTE}"
           if dtd.systemId?
             out " \"#{dtd.systemId}\""
           out ">"
       else
-        out "<?xml version=\"#{doc.version()}\"?>"
+        out "<?xml version=#{QUOTE}#{doc.version()}#{QUOTE}?>"
     @print doc.root(), out
     out "\n"
 
@@ -238,6 +240,10 @@ class Denter
     opts = {}
   if not opts?
     opts = {}
+
+  if opts.doublequote
+    QUOTE = '"'
+
   doc = switch
     when typeof(xml) == 'string', Buffer.isBuffer(xml)
       if opts?.html
@@ -303,6 +309,8 @@ pi = (n) ->
     .option '-o, --output <file>', 'Output file name [stdout]'
     .option '-c, --config <file>', "Config file to read [#{DEFAULT_CONFIG}]",
       DEFAULT_CONFIG
+    .option '-d, --doublequote', 'Use double quotes for attributes [false]',
+      false
     .option '-m, --margin <int>', 'Right margin in spaces [78]', pi, 78
     .option '-s, --spaces <int>', 'Number of spaces to indent [2]', pi, 2
     .option '-n, --noversion', 'Don\'t output xml version prefix [false]'
