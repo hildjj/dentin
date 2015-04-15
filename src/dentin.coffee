@@ -113,12 +113,17 @@ class Denter
     out "<#{kind.name}"
 
     # < >boo="baz"
-    attrs = node.attrs().sort(attr_cmp).map (a) ->
+    attrs = node.attrs().sort(attr_cmp).map (a) =>
       ns = a.namespace()
-      if ns?
-        " #{ns.prefix()}:#{a.name()}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
+      name = if ns?
+        " #{ns.prefix()}:#{a.name()}"
       else
-        " #{a.name()}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
+        " #{a.name()}"
+      val = a.value()
+      if @html and not val
+        name
+      else
+        "#{name}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
 
     # < >xmlns:bar="urn:example:bar"
     decls = node.nsDecls().sort(ns_cmp).map (ns) ->
