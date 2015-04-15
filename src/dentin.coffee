@@ -72,8 +72,17 @@ class Denter
     @right_margin = opts.margin ? 70
     @indent_spaces = opts.spaces ? 2
     @ignore = opts.ignore ? []
+    @file = null
 
-  el_kind: (el) ->
+    if typeof(opts.output) == "function"
+      @out = opts.output
+    else if typeof(opts.output) == "string"
+      @file = fs.openSync opts.output, 'w'
+      @out = fs.writeSync.bind fs, @file
+    else
+      @out = process.stdout.write.bind process.stdout
+
+  _el_kind: (el) ->
     children = el.childNodes()
     ns = el.namespace()
     kind =
@@ -99,8 +108,8 @@ class Denter
     kind.mixed = kind.elements and kind.nonempty
     kind
 
-  print_element: (node, out, parent_kind, indent) ->
-    kind = @el_kind(node)
+  _print_element: (node, out, parent_kind, indent) ->
+    kind = @_el_kind(node)
     kind.mixed = kind.mixed or parent_kind?.mixed
 
     # If we're not outputting a version string, and this is the root, we don't
@@ -164,11 +173,11 @@ class Denter
       if kind.mixed
         cap = capture()
         for c in node.childNodes()
-          @print c, cap, kind, new_indent
-        @print_text cap.result, out, kind, new_indent
+          @_print c, cap, kind, new_indent
+        @_print_text cap.result, out, kind, new_indent
       else
         for c in node.childNodes()
-          @print c, out, kind, new_indent
+          @_print c, out, kind, new_indent
 
       if kind.elements and not kind.nonempty
         out "\n#{spaces(@indent_spaces*indent)}"
@@ -183,7 +192,7 @@ class Denter
         (!node.nextSibling().text().match(/^\./)))
       out " "
 
-  print_text: (t, out, parent_kind, indent) ->
+  _print_text: (t, out, parent_kind, indent) ->
     ttl = t.trim().length
     # if we have element siblings, we're mixed
     # if there's non-whitespace, always output
@@ -203,46 +212,46 @@ class Denter
         t = ww t.trim(),
           width: @right_margin - (@indent_spaces*indent)
           indent: spaces(@indent_spaces*indent)
+          trim: true
         out t
         out "\n"
         out spaces @indent_spaces*(indent-1)
       else
         out t
 
-  print: (node, out, parent_kind=null, indent=0) ->
+  _print: (node, out, parent_kind=null, indent=0) ->
     switch node.type()
       when 'element'
-        @print_element node, out, parent_kind, indent
+        @_print_element node, out, parent_kind, indent
       when 'text'
         if parent_kind.name in @ignore
           out escape(node.text())
         else
-          @print_text escape(node.text()), out, parent_kind, indent
+          @_print_text escape(node.text()), out, parent_kind, indent
       when 'cdata'
         out "<![CDATA[#{node.text()}]]>"
       when 'comment'
         out "<!-- #{node.text().trim()} -->"
 
-  print_doc: (doc, out) ->
+  print_doc: (doc) ->
     if !@noversion
       if @html
         dtd = doc.getDtd()
         if dtd?
-          out "<!DOCTYPE #{dtd.name}"
+          @out "<!DOCTYPE #{dtd.name}"
           if dtd.externalId?
-            out " PUBLIC #{QUOTE}#{dtd.externalId}#{QUOTE}"
+            @out " PUBLIC #{QUOTE}#{dtd.externalId}#{QUOTE}"
           if dtd.systemId?
-            out " \"#{dtd.systemId}\""
-          out ">"
+            @out " #{QUOTE}#{dtd.systemId}#{QUOTE}"
+          @out ">"
       else
-        out "<?xml version=#{QUOTE}#{doc.version()}#{QUOTE}?>"
-    @print doc.root(), out
-    out "\n"
+        @out "<?xml version=#{QUOTE}#{doc.version()}#{QUOTE}?>"
+    @_print doc.root(), @out
+    @out "\n"
+    if @file?
+      fs.close @file
 
-@dent = dent = (xml, opts, out=process.stdout.write.bind(process.stdout)) ->
-  if typeof(opts) == 'function'
-    out = opts
-    opts = {}
+@dent = dent = (xml, opts) ->
   if not opts?
     opts = {}
 
@@ -259,14 +268,15 @@ class Denter
       xml
     else
       throw new Error('invalid argument (xml)')
-  new Denter(opts).print_doc doc, out
+  new Denter(opts).print_doc doc
 
-@dentToString = (xml, opts) ->
+@dentToString = (xml, opts={}) ->
   out = ""
   collect = (all...) ->
     for a in all
       out += a
-  dent xml, opts, collect
+  opts.output = collect
+  dent xml, opts
   out
 
 @dentFile = (file_name, opts, cb) ->

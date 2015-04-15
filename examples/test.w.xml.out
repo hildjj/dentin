@@ -1,0 +1,120 @@
+<?xml version='1.0'?>
+<foo a='b'
+     a10='a4'
+     a2='a2'
+     c='d&lt;&gt;&quot;&apos;'
+     a:aa='aaa'
+     xmlns:a='urn:example:a'>
+  <bar a_short='lorem'
+       b_med='amet dolore adipisicing amet'
+       long='Adipisicing dolor deserunt dolore adipisicing'
+       b:bb='bbb'
+       xmlns:b='urn:example:b'>
+    <some xmlns='urn:example:d'>
+      <other/>
+      <b:those/>
+    </some>
+    <boo/>
+    <boo bloo='hloo'/>
+    <boo>hooøë&amp;&lt;&amp;lt;</boo>
+    <boo><![CDATA[ &<> ]]></boo>
+    <boo/>
+    <boo/>
+    <boo>foo <b>bold</b> boo</boo>
+    <boo>some lines</boo>
+    <artwork>
+
+      adsasdk
+
+      ;
+
+    </artwork>
+    <boo>
+      Ut in amet sint aliquip Lorem ullamco ut. Ea id in anim cupidatat
+      occaecat commodo nulla eu. Dolor pariatur id duis pariatur eiusmod
+      voluptate laboris eiusmod nisi eiusmod eu commodo sit.
+    </boo>
+    <boo><foo>ha</foo> hoo</boo>
+    <boo>
+      Deserunt ex anim labore nostrud magna.  Proident qui excepteur id id do
+      dolor laboris velit ad magna aute proident nostrud aliqua. Mollit
+      aliquip cupidatat culpa non enim exercitation reprehenderit velit
+      aliqua. Qui ad cupidatat commodo est tempor ea esse. Laboris fugiat ad
+      pariatur fugiat ex sunt sunt pariatur deserunt nisi incididunt
+      adipisicing voluptate exercitation. Incididunt voluptate dolor excepteur
+      pariatur nostrud id Lorem.  Ad pariatur occaecat aute pariatur nulla
+      labore deserunt fugiat dolor. Qui tempor sit irure aliquip culpa non et
+      tempor ad amet ea labore. Minim tempor tempor sunt esse sunt est labore
+      eu ea pariatur duis. Ipsum ullamco eiusmod dolore id ipsum consectetur
+      duis velit duis. Magna eiusmod sint ea sint deserunt ut ipsum voluptate.
+      Pariatur sint anim occaecat velit dolor tempor. Nostrud duis non eu
+      exercitation occaecat aliqua eiusmod aute. Cupidatat esse nostrud dolore
+      in consequat nisi in. Ipsum ipsum ea non culpa consectetur. Exercitation
+      voluptate incididunt duis ex id quis. Amet aliqua qui ex amet ex nostrud
+      aliqua culpa aliqua exercitation. Id ipsum sint Lorem mollit
+      adipisicing. Consequat Lorem aliquip consequat pariatur in magna
+      incididunt eu. Duis occaecat laboris id non voluptate eu amet laboris.
+      Eu in ipsum consectetur consequat duis adipisicing exercitation.
+    </boo>
+    <boo>
+      <boo>
+        <boo>
+          <boo>
+            <boo>
+              <boo>
+                <boo>
+                  Deserunt ex anim labore nostrud magna. Proident qui
+                  excepteur id id do dolor laboris velit ad magna aute
+                  proident nostrud aliqua. Mollit aliquip cupidatat culpa non
+                  enim exercitation reprehenderit velit aliqua. Qui ad
+                  cupidatat commodo est tempor ea esse. Laboris fugiat ad
+                  pariatur fugiat ex sunt sunt pariatur deserunt nisi
+                  incididunt adipisicing voluptate exercitation. Incididunt
+                  voluptate dolor excepteur pariatur nostrud id Lorem.  Ad
+                  pariatur occaecat aute pariatur nulla labore deserunt fugiat
+                  dolor. Qui tempor sit irure aliquip culpa non et tempor ad
+                  amet ea labore. Minim tempor tempor sunt esse sunt est
+                  labore eu ea pariatur duis. Ipsum ullamco eiusmod dolore id
+                  ipsum consectetur duis velit duis. Magna eiusmod sint ea
+                  sint deserunt ut ipsum voluptate.  Pariatur sint anim
+                  occaecat velit dolor tempor. Nostrud duis non eu
+                  exercitation occaecat aliqua eiusmod aute. Cupidatat esse
+                  nostrud dolore in consequat nisi in. Ipsum ipsum ea non
+                  culpa consectetur. Exercitation voluptate incididunt duis ex
+                  id quis. Amet aliqua qui ex amet ex nostrud aliqua culpa
+                  aliqua exercitation. Id ipsum sint Lorem mollit adipisicing.
+                  Consequat Lorem aliquip consequat pariatur in magna
+                  incididunt eu. Duis occaecat laboris id non voluptate eu
+                  amet laboris. Eu in ipsum consectetur consequat duis
+                  adipisicing exercitation.
+                </boo>
+              </boo>
+            </boo>
+          </boo>
+        </boo>
+      </boo>
+    </boo>
+  </bar>
+  <section sectionNumber='s-boilerplate-1'>
+    <name slugifiedName='status-of-this-memo'>Status of this Memo</name>
+    <t partNumber='p-boilerplate-1-1'>
+      This Internet-Draft is submitted in full conformance with the provisions
+      of BCP 78 and BCP 79.
+    </t>
+    <t partNumber='p-boilerplate-1-2'>
+      Internet-Drafts are working documents of the Internet Engineering Task
+      Force (IETF).  Note that other groups may also distribute working
+      documents as Internet-Drafts.  The list of current Internet-Drafts is at
+      <eref target='http://datatracker.ietf.org/drafts/current/'/>.
+    </t>
+    <t partNumber='p-boilerplate-1-3'>
+      Internet-Drafts are draft documents valid for a maximum of six months
+      and may be updated, replaced, or obsoleted by other documents at any
+      time.  It is inappropriate to use Internet-Drafts as reference material
+      or to cite them other than as "work in progress."
+    </t>
+    <t partNumber='p-boilerplate-1-4'>
+      This Internet-Draft will expire on 2015-05-01.
+    </t>
+  </section>
+</foo>

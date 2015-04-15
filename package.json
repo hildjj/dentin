@@ -27,12 +27,12 @@
   },
   "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
-    "commander": "^2.7.1",
+    "commander": "^2.8.0",
     "libxmljs": "git://github.com/hildjj/libxmljs.git#namespace-declarations",
     "word-wrap": "^1.0.2"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.1",
+    "coffee-script": "^1.9.2",
     "coffeelint": "^1.9.3",
     "grunt": "^0.4.5",
     "grunt-check-dependencies": "^0.9.0",

@@ -34,8 +34,8 @@ module.exports = function(grunt) {
     codo: {
       src: ['src'],
       options: {
-        name: "json-text-sequence",
-        title: "json-text-sequence API Documentation",
+        name: "dentin",
+        title: "dentin API Documentation",
         extras: [ "LICENSE.md" ]
       }
     },
@@ -60,7 +60,10 @@ module.exports = function(grunt) {
         command: 'node_modules/.bin/istanbul cover node_modules/.bin/nodeunit test/*.coffee'
       },
       examples: {
-        command: './bin/xmljade examples/test.jade examples/test.xml -o examples/test.html -p'
+        stdout: false,
+        stderr: false,
+        // TODO: There is certainly a better way to do this.  Ideas?
+        command: 'for fn in examples/*.xml examples/*.html; do bin/dentin -o $fn.out $fn; done'
       }
     },
     express: {
