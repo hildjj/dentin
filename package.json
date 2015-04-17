@@ -28,7 +28,7 @@
   "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
     "commander": "^2.8.0",
-    "libxmljs": "git://github.com/hildjj/libxmljs.git#namespace-declarations",
+    "libxmljs": "git://github.com/hildjj/libxmljs.git#all-1",
     "word-wrap": "^1.0.2"
   },
   "devDependencies": {
