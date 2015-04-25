@@ -88,12 +88,37 @@ class Denter
     kind =
       text: false
       elements: false
+      mixed: false
       nonempty: false
       number: children.length
+      void: false
       name: if ns? and ns.prefix()?
         ns.prefix() + ":" + el.name()
       else
         el.name()
+
+    if @html
+      kind.void = kind.name in [
+        'area'
+        'base'
+        'br'
+        'col'
+        'command'
+        'embed'
+        'hr'
+        'img'
+        'input'
+        'keygen'
+        'link'
+        'meta'
+        'param'
+        'source'
+        'track'
+        'wbr'
+      ]
+      if kind.void
+        if (children.length > 0)
+          console.error "Void element '#{kind.name}' with children at line #{el.line()}"
 
     for c in children
       switch c.type()
@@ -188,7 +213,10 @@ class Denter
       # </foo>
       out "</#{kind.name}>"
     else
-      out "/>"
+      if kind.void
+        out ">"
+      else
+        out "/>"
 
     if (parent_kind?.mixed and
         (node.nextSibling()?.type() == "text") and
