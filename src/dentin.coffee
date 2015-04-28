@@ -16,6 +16,7 @@ ESCAPES =
   '>': '&gt;'
   '"': '&quot;'
   "'": '&apos;'
+  "\xA0": '&nbsp;'
 
 QUOTE = "'"
 
@@ -24,11 +25,11 @@ spaces = (n) ->
   SPACES.substring(0, n)
 
 escape = (str) ->
-  str.replace /[&<>]/g, (m) ->
+  str.replace /[&<>\xA0]/g, (m) ->
     ESCAPES[m]
 
 escape_attr = (str) ->
-  str.replace /[&<>"']/g, (m) ->
+  str.replace /[&<>"'\xA0]/g, (m) ->
     ESCAPES[m]
 
 attr_cmp = (a,b) ->
@@ -118,7 +119,8 @@ class Denter
       ]
       if kind.void
         if (children.length > 0)
-          console.error "Void element '#{kind.name}' with children at line #{el.line()}"
+          console.error "Void element '#{kind.name}' " +
+            "with children at line #{el.line()}"
 
     for c in children
       switch c.type()
@@ -126,7 +128,8 @@ class Denter
         when 'element' then kind.elements = true
         when 'text'
           kind.text = true
-          if !c.text().match /^\s*$/
+          ntext = c.text().replace /\xA0/g, "&nbsp;"
+          if !ntext.match /^\s*$/
             kind.nonempty = true
         # ignore comments, entity_ref's for now
 
@@ -218,9 +221,10 @@ class Denter
       else
         out "/>"
 
-    if (parent_kind?.mixed and
-        (node.nextSibling()?.type() == "text") and
-        (!node.nextSibling().text().match(/^\./)))
+    if parent_kind?.mixed and
+       (node.nextSibling()?.type() == "text") and
+       (!node.nextSibling().text().match(/^\./)) and
+       (!node.nextSibling().text().match(/\xA0/))
       out " "
 
   _print_text: (t, out, parent_kind, indent) ->
