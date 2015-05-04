@@ -1,0 +1,25 @@
+<!-- before -->
+<body>
+  <one><!-- inside --></one>
+  <one>
+  <!-- inside 1 -->
+  <!-- inside 2 -->
+</one>
+<one>
+  <!-- before two -->
+  <two/>
+</one>
+<one>
+  <two/>
+  <!-- after two -->
+</one>
+<one>
+  foo
+  <!-- bar -->
+</one>
+<one>
+  <!-- bar -->
+  foo
+</one>
+</body>
+<!-- after -->

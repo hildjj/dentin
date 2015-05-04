@@ -131,10 +131,33 @@ class Denter
           ntext = c.text().replace /\xA0/g, "&nbsp;"
           if !ntext.match /^\s*$/
             kind.nonempty = true
-        # ignore comments, entity_ref's for now
+        when 'comment'
+          kind.elements = true
+        when 'entity_ref'
+          kind.nonempty = true
+        else
+          console.error "unknown node type: #{c.type()}"
 
     kind.mixed = kind.elements and kind.nonempty
     kind
+
+  _print_pi: (node, out, indent) ->
+    if not @noversion or parent_kind? or node.prevSibling()?
+      out "\n"
+    out spaces @indent_spaces*indent
+
+    # TODO: turn dquote into quote, even though it's technically wrong?
+    out "<?#{node.name()} #{node.text()}?>"
+
+  _print_dtd: (node, out, indent) ->
+    t = node.toString()
+    if t
+      if not @noversion or parent_kind? or node.prevSibling()?
+        out "\n"
+      out spaces @indent_spaces*indent
+
+      # TODO: don't punt.
+      out t
 
   _print_element: (node, out, parent_kind, indent) ->
     kind = @_el_kind(node)
@@ -142,7 +165,7 @@ class Denter
 
     # If we're not outputting a version string, and this is the root, we don't
     # want a newline.
-    if not @noversion or parent_kind?
+    if not @noversion or parent_kind? or node.prevSibling()?
       out "\n"
     out spaces @indent_spaces*indent
 
@@ -192,7 +215,7 @@ class Denter
         out a
         kind.right_pos += a.length
 
-    # any children?  TODO: test for <foo><!-- --></foo>
+    # any children?
     if kind.text or kind.elements
       # yes
       out ">"
@@ -266,7 +289,18 @@ class Denter
       when 'cdata'
         out "<![CDATA[#{node.text()}]]>"
       when 'comment'
+        if not @noversion or parent_kind? or node.prevSibling()?
+          out "\n"
+        out spaces @indent_spaces*indent
         out "<!-- #{node.text().trim()} -->"
+      when 'entity_ref'
+        out "&#{node.name()};"
+      when 'pi'
+        @_print_pi node, out, indent
+      when 'dtd'
+        @_print_dtd node, out, indent
+      else
+        console.error "Unknown node print: #{node.type()}"
 
   print_doc: (doc) ->
     if !@noversion
@@ -281,8 +315,20 @@ class Denter
           @out ">"
       else
         @out "<?xml version=#{QUOTE}#{doc.version()}#{QUOTE}?>"
-    @_print doc.root(), @out
+
+    # libxmljs doesn't allow you to get all of the child nodes of the document,
+    # just the root node.  Examples: comments, PI's, etc.
+    # Surf to the front, then go back forward
+    node = doc.root()
+    firster = node
+    while firster
+      node = firster
+      firster = node.prevSibling()
+    while node
+      @_print node, @out
+      node = node.nextSibling()
     @out "\n"
+
     if @file?
       fs.close @file
 
