@@ -242,7 +242,11 @@ class Denter
       if kind.void
         out ">"
       else
-        out "/>"
+        if @html
+          # in HTML, if it's not a void element, you MUST output the close tag
+          out "></#{kind.name}>"
+        else
+          out "/>"
 
     if parent_kind?.mixed and
        (node.nextSibling()?.type() == "text") and

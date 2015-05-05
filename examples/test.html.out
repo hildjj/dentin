@@ -5,12 +5,13 @@
     <link href='theme.css' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <iframe allowfullscreen/>
+    <iframe allowfullscreen></iframe>
     <br>
     <span>&nbsp;</span>
     <span class='irefRefs'>
       <a href='#s-Coffee-tables-1'>2</a>,&nbsp; <a
       href='#s-Coffee-tables-2'>2</a>
     </span>
+    <span></span>
   </body>
 </html>
