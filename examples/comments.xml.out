@@ -1,5 +1,6 @@
 <?xml version='1.0'?>
-<!-- before -->
+<!-- before 1 -->
+<!-- before 2 -->
 <body>
   <one>
     <!-- inside -->
@@ -19,4 +20,5 @@
   <one>foo <!-- bar --></one>
   <one><!-- bar -->foo</one>
 </body>
-<!-- after -->
+<!-- after 1 -->
+<!-- after 2 -->
