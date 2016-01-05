@@ -186,7 +186,7 @@ class Denter
         "#{name}=#{QUOTE}#{escape_attr(a.value())}#{QUOTE}"
 
     # < >xmlns:bar="urn:example:bar"
-    decls = node.nsDecls().sort(ns_cmp).map (ns) ->
+    decls = node.namespaces(true).sort(ns_cmp).map (ns) ->
       p = ns.prefix()
       if p?
         " xmlns:#{p}=#{QUOTE}#{ns.href()}#{QUOTE}"
