@@ -166,7 +166,14 @@ class Denter
     # If we're not outputting a version string, and this is the root, we don't
     # want a newline.
     if not @noversion or parent_kind? or node.prevSibling()?
-      out "\n"
+      # we also don't want a newline if the parent is mixed and the previous
+      # sibling is text that ends in a non-word character.
+      ps = node.prevSibling()
+      unless parent_kind?.mixed and
+             ps? and (ps.type() == 'text') and
+             (ps.text().trim().length > 1) and
+             ps.text().match(/[^a-z0-9;: \.\n\f\t]\s*$/i)
+        out "\n"
     out spaces @indent_spaces*indent
 
     # <foo
@@ -248,11 +255,10 @@ class Denter
         else
           out "/>"
 
-    if parent_kind?.mixed and
-       (node.nextSibling()?.type() == "text") and
-       (!node.nextSibling().text().match(/^\./)) and
-       (!node.nextSibling().text().match(/\xA0/))
-      out " "
+    if parent_kind?.mixed and (node.nextSibling()?.type() == "text")
+      ntxt = node.nextSibling().text()
+      if !ntxt.match(/\xA0/) and ntxt.match(/^\s*\w/)
+        out " "
 
   _print_text: (t, out, parent_kind, indent) ->
     ttl = t.trim().length

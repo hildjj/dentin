@@ -1,5 +1,10 @@
 <?xml version='1.0'?>
-<foo>
-  bar <b>boo</b> blah Amet sint labore eiusmod dolore exercitation qui officia
-  ex laboris ad voluptate
-</foo>
+<top>
+  <foo>
+    bar <b id='boo'>boo</b> blah Amet sint labore eiusmod dolore exercitation
+    qui officia ex laboris ad voluptate [<a href='#boo'>BOO</a>] foo <cook/>.
+  </foo>
+  <foo>colon: <space/></foo>
+  <foo>semi-colon; <space/></foo>
+  <foo>period.  <space/></foo>
+</top>
