@@ -27,27 +27,27 @@
   },
   "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
-    "commander": "^2.9",
-    "libxmljs": "0.16",
-    "word-wrap": "^1.1"
+    "commander": "2.9",
+    "libxmljs": "0.17",
+    "word-wrap": "1.1"
   },
   "devDependencies": {
     "coffee-script": "^1.10",
-    "coffeelint": "^1.14",
-    "grunt": "^0.4",
-    "grunt-codo": "^0.2",
+    "coffeelint": "1.14",
+    "grunt": ">=0.4",
+    "grunt-codo": "0.2",
     "grunt-coffeelint": "0.0",
-    "grunt-contrib-clean": "^0.7",
-    "grunt-contrib-coffee": "^0.13",
-    "grunt-contrib-nodeunit": "^0.4",
-    "grunt-contrib-watch": "^0.6",
-    "grunt-coveralls": "^1.0",
-    "grunt-express": "^1.4",
-    "grunt-release": "^0.13",
-    "grunt-shell": "^1.1",
-    "istanbul": "^0.4",
-    "jit-grunt": "^0.9",
-    "nodeunit": "^0.9",
-    "source-map-support": "^0.4"
+    "grunt-contrib-clean": "1.0",
+    "grunt-contrib-coffee": "1.0",
+    "grunt-contrib-nodeunit": "0.4",
+    "grunt-contrib-watch": "0.6",
+    "grunt-coveralls": "1.0",
+    "grunt-express": "1.4",
+    "grunt-release": "0.13",
+    "grunt-shell": "1.1",
+    "istanbul": "0.4",
+    "jit-grunt": "0.10",
+    "nodeunit": "0.9",
+    "source-map-support": "0.4"
   }
 }
