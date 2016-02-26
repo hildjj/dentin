@@ -72,7 +72,7 @@ module.exports = function(grunt) {
     watch: {
       coffee: {
         files: ['src/*.coffee', 'bin/*'],
-        tasks: ['coffee'],
+        tasks: ['examples'],
         options: {
           livereload: true
         }

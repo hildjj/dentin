@@ -2,7 +2,6 @@ try
   require('source-map-support').install()
 catch
 
-
 fs = require 'fs'
 assert = require 'assert'
 xmljs = require 'libxmljs'
@@ -163,18 +162,13 @@ class Denter
     kind = @_el_kind(node)
     kind.mixed = kind.mixed or parent_kind?.mixed
 
-    # If we're not outputting a version string, and this is the root, we don't
-    # want a newline.
-    if not @noversion or parent_kind? or node.prevSibling()?
-      # we also don't want a newline if the parent is mixed and the previous
-      # sibling is text that ends in a non-word character.
-      ps = node.prevSibling()
-      unless parent_kind?.mixed and
-             ps? and (ps.type() == 'text') and
-             (ps.text().trim().length > 1) and
-             ps.text().match(/[^a-z0-9;: \.\n\f\t]\s*$/i)
+    # If this the parent is mixed, we don't want a newline or an indent.
+    if not parent_kind?.mixed
+      # If we're not outputting a version string, and this is the root, we don't
+      # want a newline.
+      if not @noversion or parent_kind?
         out "\n"
-    out spaces @indent_spaces*indent
+      out spaces @indent_spaces*indent
 
     # <foo
     out "<#{kind.name}"
@@ -231,11 +225,9 @@ class Denter
       if kind.mixed
         rm = @right_margin
         @right_margin = -1
-        cap = capture()
         for c in node.childNodes()
-          @_print c, cap, kind, 0
+          @_print c, out, kind, 0
         @right_margin = rm
-        @_print_text cap.result, out, kind, new_indent
       else
         for c in node.childNodes()
           @_print c, out, kind, new_indent
@@ -255,12 +247,8 @@ class Denter
         else
           out "/>"
 
-    if parent_kind?.mixed and (node.nextSibling()?.type() == "text")
-      ntxt = node.nextSibling().text()
-      if !ntxt.match(/\xA0/) and ntxt.match(/^\s*\w/)
-        out " "
-
-  _print_text: (t, out, parent_kind, indent) ->
+  _print_text: (node, out, parent_kind, indent) ->
+    t = escape(node.text())
     ttl = t.trim().length
     # if we have element siblings, we're mixed
     # if there's non-whitespace, always output
@@ -269,7 +257,15 @@ class Denter
       t = t.replace /([^.])\s+/g, "$1 "
       # Newlines after a period get replaced with two spaces, except at the end.
       t = t.replace /[.]\n\s*(?!$)/g, ".  "
-      t = t.trim()
+
+      # if the parent is mixed, only trim at the beginning and end.
+      if parent_kind.mixed
+        if not node.prevSibling()?
+          t = t.trimLeft()
+        if not node.nextSibling()?
+          t = t.trimRight()
+      else
+        t = t.trim()
       ttl = t.length
 
       # are we going to go over the edge <foo>^t</foo>
@@ -292,10 +288,10 @@ class Denter
       when 'element'
         @_print_element node, out, parent_kind, indent
       when 'text'
-        if parent_kind.name in @ignore
+        if (parent_kind.name in @ignore)
           out escape(node.text())
         else
-          @_print_text escape(node.text()), out, parent_kind, indent
+          @_print_text node, out, parent_kind, indent
       when 'cdata'
         out "<![CDATA[#{node.text()}]]>"
       when 'comment'

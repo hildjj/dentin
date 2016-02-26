@@ -17,8 +17,11 @@
     <two/>
     <!-- after two -->
   </one>
-  <one>foo <!-- bar --></one>
-  <one><!-- bar -->foo</one>
+  <one>foo 
+<!-- bar --></one>
+  <one>
+<!-- bar -->
+ foo</one>
 </body>
 <!-- after 1 -->
 <!-- after 2 -->
