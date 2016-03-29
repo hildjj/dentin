@@ -232,7 +232,7 @@ class Denter
         for c in node.childNodes()
           @_print c, out, kind, new_indent
 
-      if kind.elements and not kind.nonempty
+      if kind.elements and not kind.nonempty  and not parent_kind?.mixed
         out "\n#{spaces(@indent_spaces*indent)}"
 
       # </foo>

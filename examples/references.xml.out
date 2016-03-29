@@ -1,0 +1,5 @@
+<?xml version='1.0'?>
+<dl class='reference'>
+  <dt id='RFC2119'>[RFC2119]</dt>
+  <dd><span class='refAuthor'>Bradner, S.</span>, "<span class='refTitle'>Key words for use in RFCs to Indicate Requirement Levels</span>", <span class='refSeries'><span class='refSeriesName'>BCP</span><span class='refSeriesValue'>14</span></span>, <span class='refSeries'><span class='refSeriesName'>RFC</span><span class='refSeriesValue'>2119</span></span>, <span class='refSeries'><span class='refSeriesName'>DOI</span><span class='refSeriesValue'>10.17487/RFC2119</span></span>, <time class='refDate' datetime='1997-03'>March 1997</time>. <a class='refTarget' href='http://www.rfc-editor.org/info/rfc2119'>Link</a></dd>
+</dl>
