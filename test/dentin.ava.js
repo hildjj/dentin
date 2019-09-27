@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava')
-const Dentin = require('../lib/dentin2')
+const Dentin = require('../lib/dentin')
 
 test('dentToString', t => {
   const out = Dentin.dentToString(
