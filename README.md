@@ -19,3 +19,6 @@ Usage
       -m, --margin <int>   Right margin in spaces [78]
       -s, --spaces <int>   Number of spaces to indent [2]
       --html               Parse and generate HTML instead of XML [look at filename]
+
+[![Build Status](https://travis-ci.org/hildjj/dentin.svg?branch=master)](https://travis-ci.org/hildjj/dentin)
+[![Coverage Status](https://coveralls.io/repos/github/hildjj/dentin/badge.svg?branch=master)](https://coveralls.io/github/hildjj/dentin?branch=master)
