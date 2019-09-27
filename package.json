@@ -7,13 +7,8 @@
     "dentin": "./bin/dentin"
   },
   "scripts": {
-    "coffee": "coffee -cm -o lib/ src",
-    "coverage": "istanbul cover nodeunit test/*.coffee",
-    "precoverage": "npm run coffee",
-    "test": "nodeunit test/*.coffee",
-    "pretest": "npm run coffee",
-    "prepublish": "npm run coffee",
-    "watch": "watch 'npm run coverage' src/",
+    "test": "ava test/*.js",
+    "coverage": "nyc npm test",
     "release": "npm version patch && git push --follow-tags && npm publish"
   },
   "repository": {
@@ -34,15 +29,13 @@
   },
   "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
-    "commander": "2.9",
-    "libxmljs": "0.18",
-    "word-wrap": "1.2"
+    "commander": "3.0.2",
+    "libxmljs": "0.19.7",
+    "word-wrap": "1.2.3"
   },
   "devDependencies": {
-    "coffee-script": "1.12",
-    "istanbul": "^0.4.3",
-    "nodeunit": "0.11",
-    "source-map-support": "0.4",
+    "ava": "^2.4.0",
+    "nyc": "^14.1.1",
     "watch": "1.0"
   }
 }

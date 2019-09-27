@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-var dent = require('../lib/dentin');
-dent.cmd(process.argv, function(er) {
+'use strict'
+const dent = require('../lib/dentin')
+dent.cmd(process.argv, er => {
   if (er) {
-    console.error(er);
+    console.error(er)
   }
-});
+})
