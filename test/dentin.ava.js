@@ -118,25 +118,3 @@ test('errors', t => {
     Dentin.dent(true)
   })
 })
-
-test('config', async t => {
-  let opts = await Dentin.readConfig({
-    config: path.join(__dirname, '..', '.dentin.json')
-  })
-  t.deepEqual(opts.ignore, ['artwork', 'sourcecode'])
-  opts = await Dentin.readConfig('fileThatDoesNotExit')
-  t.deepEqual(opts, {})
-})
-
-test('cmd', async t => {
-  const s = await Dentin.cmd([
-    process.execPath,
-    __filename,
-    path.join(__dirname, '..', 'examples', 'postal.xml'),
-    '-o', '/dev/null',
-    '-i', 'artwork',
-    '-i', 'sourcecode',
-    '-s', '4'
-  ])
-  t.is(s, undefined)
-})

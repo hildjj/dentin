@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 'use strict'
-const dent = require('../lib/dentin')
-dent.cmd(process.argv).catch(console.error)
+const cmd = require('../lib/cmd')
+cmd(process.argv).catch(console.error)
