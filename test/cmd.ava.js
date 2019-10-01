@@ -4,7 +4,6 @@ const path = require('path')
 const test = require('ava')
 const cmd = require('../lib/cmd')
 
-
 test('config', async t => {
   let opts = await cmd._readConfig({
     config: path.join(__dirname, '..', '.dentin.json')
