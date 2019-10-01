@@ -2,8 +2,4 @@
 
 'use strict'
 const dent = require('../lib/dentin')
-dent.cmd(process.argv, er => {
-  if (er) {
-    console.error(er)
-  }
-})
+dent.cmd(process.argv).catch(console.error)
