@@ -1,11 +1,14 @@
 'use strict'
 
-const fs = require('fs').promises
+const fs = require('fs')
 const path = require('path')
 const stream = require('stream')
 const test = require('ava')
 const libxmljs = require('libxmljs')
 const Dentin = require('../lib/dentin')
+const util = require('util')
+const readdir = util.promisify(fs.readdir)
+const readFile = util.promisify(fs.readFile)
 
 test('dentToString', t => {
   const out = Dentin.dentToString(
@@ -65,11 +68,11 @@ test('sorting', t => {
 })
 test('examples', async t => {
   const dn = path.join(__dirname, '..', 'examples')
-  const dir = await fs.readdir(dn)
+  const dir = await readdir(dn)
   t.truthy(dir.length > 0)
   for (const fx of dir.filter(f => f.endsWith('.xml'))) {
-    const input = await fs.readFile(path.join(dn, fx))
-    const output = await fs.readFile(path.join(dn, fx + '.out'), 'utf8')
+    const input = await readFile(path.join(dn, fx))
+    const output = await readFile(path.join(dn, fx + '.out'), 'utf8')
     const s = Dentin.dentToString(input, {
       ignore: [
         'artwork',
@@ -80,7 +83,7 @@ test('examples', async t => {
     t.is(s, output, fx)
   }
   for (const fh of dir.filter(f => f.endsWith('.html'))) {
-    const output = await fs.readFile(path.join(dn, fh + '.out'), 'utf8')
+    const output = await readFile(path.join(dn, fh + '.out'), 'utf8')
     const out = []
     await Dentin.dentFile(path.join(dn, fh), {
       margin: 78,
