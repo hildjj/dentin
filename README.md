@@ -26,8 +26,8 @@ Usage
                                                                             [array]
       -o, --output       Output file name                 [string] [default: stdout]
       -b, --backup       Replace the current file, keeping a backup of the original,
-                        with the given extension.  This can be used to process
-                        several files at once into different output files. [string]
+                         with the given extension.  This can be used to process
+                         several files at once into different output files. [string]
       -c, --config       Read configuration information from this JSON file.
                                                           [default: ".dentin.json"]
       -d, --doubleQuote  Use double quotes for attributes [boolean] [default: false]
