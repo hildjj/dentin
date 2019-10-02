@@ -2,23 +2,43 @@
 =====================
 
 All of the pretty-printers I found for XML and HTML didn't work well enough, so
-I spent way too much time putting this together.
+I spent way too much time putting this together.  It handles DTDs, mixed content,
+etc. in the way that I prefer.  File bugs if you disagree and I'll likely add
+config options.
+
+Installation
+------------
+
+    npm install -g dentin
 
 Usage
 -----
 
-    dentin [options] [file...]
+    dentin [files...]
+
+    Indent XML or HTML files
+
+    Positionals:
+      files  The files to read. To read stdin explicitly, use "-".  [default: stdin]
 
     Options:
-
-      -h, --help           output usage information
-      -V, --version        output the version number
-      -i, --ignore <name>  Ignore elements with name for wrapping []
-      -o, --output <file>  Output file name [stdout]
-      -c, --config <file>  Config file to read [./.dent.json]
-      -m, --margin <int>   Right margin in spaces [78]
-      -s, --spaces <int>   Number of spaces to indent [2]
-      --html               Parse and generate HTML instead of XML [look at filename]
+      -i, --ignore       Ignore elements with these names, do not word-wrap them
+                                                                            [array]
+      -o, --output       Output file name                 [string] [default: stdout]
+      -b, --backup       Replace the current file, keeping a backup of the original,
+                        with the given extension.  This can be used to process
+                        several files at once into different output files. [string]
+      -c, --config       Read configuration information from this JSON file.
+                                                          [default: ".dentin.json"]
+      -d, --doubleQuote  Use double quotes for attributes [boolean] [default: false]
+      -m, --margin       Line length for word wrapping        [number] [default: 78]
+      -s, --spaces       How many spaces to indent each level  [number] [default: 2]
+      -n, --noVersion    Do not output the XML version or HTML doctype prefix
+                                                          [boolean] [default: false]
+      --html             Process these files as HTML instead of XML
+                                      [boolean] [default: determine from file name]
+      -h, --help         Show help                                         [boolean]
+      -V, --version      Show version number                               [boolean]
 
 [![Build Status](https://travis-ci.org/hildjj/dentin.svg?branch=master)](https://travis-ci.org/hildjj/dentin)
 [![Coverage Status](https://coveralls.io/repos/github/hildjj/dentin/badge.svg?branch=master)](https://coveralls.io/github/hildjj/dentin?branch=master)

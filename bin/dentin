@@ -2,4 +2,4 @@
 
 'use strict'
 const cmd = require('../lib/cmd')
-cmd(process.argv).catch(console.error)
+cmd(process.argv.slice(2)).catch(console.error)
