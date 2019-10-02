@@ -121,3 +121,15 @@ test('errors', t => {
     Dentin.dent(true)
   })
 })
+
+test('html', t => {
+  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE></input>', {
+    html: true,
+    noVersion: true
+  })
+  t.is(doc, `<html>
+  <body>
+    <input disabled>
+  </body>
+</html>\n`)
+})
