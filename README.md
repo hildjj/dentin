@@ -23,20 +23,22 @@ Usage
 
     Options:
       -i, --ignore       Ignore elements with these names, do not word-wrap them
-                                                                            [array]
+                                                                             [array]
       -o, --output       Output file name                 [string] [default: stdout]
       -b, --backup       Replace the current file, keeping a backup of the original,
                          with the given extension.  This can be used to process
                          several files at once into different output files. [string]
       -c, --config       Read configuration information from this JSON file.
-                                                          [default: ".dentin.json"]
+                                                           [default: ".dentin.json"]
       -d, --doubleQuote  Use double quotes for attributes [boolean] [default: false]
       -m, --margin       Line length for word wrapping        [number] [default: 78]
       -s, --spaces       How many spaces to indent each level  [number] [default: 2]
       -n, --noVersion    Do not output the XML version or HTML doctype prefix
                                                           [boolean] [default: false]
       --html             Process these files as HTML instead of XML
-                                      [boolean] [default: determine from file name]
+                                       [boolean] [default: determine from file name]
+      -Q, --fewerQuotes  In HTML docs, only use quotes around attribute values that
+                         require them                     [boolean] [default: false]
       -h, --help         Show help                                         [boolean]
       -V, --version      Show version number                               [boolean]
 

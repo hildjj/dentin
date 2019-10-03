@@ -23,6 +23,7 @@ test('constructor', t => {
   const d = new Dentin()
   t.deepEqual(d.opts, {
     html: false,
+    fewerQuotes: false,
     noVersion: false,
     margin: 70,
     indentSpaces: 2,
@@ -123,13 +124,14 @@ test('errors', t => {
 })
 
 test('html', t => {
-  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE></input>', {
+  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE type="text"></input>', {
     html: true,
+    fewerQuotes: true,
     noVersion: true
   })
   t.is(doc, `<html>
   <body>
-    <input disabled>
+    <input disabled type=text>
   </body>
 </html>\n`)
 })
