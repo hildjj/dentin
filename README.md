@@ -15,12 +15,12 @@ Usage
 -----
 
     dentin [files...]
-
+    
     Indent XML or HTML files
-
+    
     Positionals:
       files  The files to read. To read stdin explicitly, use "-".  [default: stdin]
-
+    
     Options:
       -i, --ignore       Ignore elements with these names, do not word-wrap them
                                                                              [array]
@@ -32,7 +32,9 @@ Usage
                                                            [default: ".dentin.json"]
       -d, --doubleQuote  Use double quotes for attributes [boolean] [default: false]
       -m, --margin       Line length for word wrapping        [number] [default: 78]
-      -s, --spaces       How many spaces to indent each level  [number] [default: 2]
+      -s, --spaces       How many spaces to indent each level.  0 causes left
+                         alignment.  -1 strips insignificant whitespace.
+                                                               [number] [default: 2]
       -n, --noVersion    Do not output the XML version or HTML doctype prefix
                                                           [boolean] [default: false]
       --html             Process these files as HTML instead of XML
@@ -41,6 +43,7 @@ Usage
                          require them                     [boolean] [default: false]
       -h, --help         Show help                                         [boolean]
       -V, --version      Show version number                               [boolean]
+
 
 [![Build Status](https://travis-ci.org/hildjj/dentin.svg?branch=master)](https://travis-ci.org/hildjj/dentin)
 [![Coverage Status](https://coveralls.io/repos/github/hildjj/dentin/badge.svg?branch=master)](https://coveralls.io/github/hildjj/dentin?branch=master)

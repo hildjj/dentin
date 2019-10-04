@@ -26,7 +26,7 @@ test('constructor', t => {
     fewerQuotes: false,
     noVersion: false,
     margin: 70,
-    indentSpaces: 2,
+    spaces: 2,
     doubleQuote: false,
     ignore: [],
     output: null
@@ -134,4 +134,21 @@ test('html', t => {
     <input disabled type=text>
   </body>
 </html>\n`)
+})
+
+test('small spaces', t => {
+  let doc = Dentin.dentToString('<foo><bar/></foo>', {
+    spaces: 0,
+    noVersion: true
+  })
+  t.is(doc, `<foo>
+<bar/>
+</foo>\n`)
+
+  doc = Dentin.dentToString('<foo>\n  <bar>aaaaa \nbbbbb\n ccccc  \n  ddddd\n\teeeee fffff</bar>\n</foo>\n', {
+    spaces: -1,
+    margin: 15,
+    noVersion: true
+  })
+  t.is(doc, '<foo><bar>aaaaa bbbbb ccccc ddddd eeeee fffff</bar></foo>')
 })
