@@ -100,7 +100,7 @@ test('examples', async t => {
     t.is(out.join(''), output, fh)
   }
 })
-test('errors', t => {
+test('errors', async t => {
   // force a malformed HTML text; the parser doesn't generate these.
   const doc = libxmljs.parseHtml('<br>')
   const br = doc.get('body/br')
@@ -121,17 +121,20 @@ test('errors', t => {
   t.throws(() => {
     Dentin.dent(true)
   })
+  await t.throwsAsync(() => {
+    return Dentin.dentFile(path.join(__dirname, '..', 'package.json'))
+  })
 })
 
 test('html', t => {
-  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE type="text"></input>', {
+  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE type="text" placeholder="foo=bar"></input>', {
     html: true,
     fewerQuotes: true,
     noVersion: true
   })
   t.is(doc, `<html>
   <body>
-    <input disabled type=text>
+    <input disabled placeholder='foo=bar' type=text>
   </body>
 </html>\n`)
 })
@@ -145,10 +148,33 @@ test('small spaces', t => {
 <bar/>
 </foo>\n`)
 
-  doc = Dentin.dentToString('<foo>\n  <bar>aaaaa \nbbbbb\n ccccc  \n  ddddd\n\teeeee fffff</bar>\n</foo>\n', {
+  doc = Dentin.dentToString(`<foo>
+    <bar>aaaaa\ \
+bbbbb
+    ccccc\
+    ddddd
+\teeeee fffff</bar>
+</foo>\n`, {
     spaces: -1,
     margin: 15,
     noVersion: true
   })
   t.is(doc, '<foo><bar>aaaaa bbbbb ccccc ddddd eeeee fffff</bar></foo>')
+})
+
+test('PI', t => {
+  let doc = Dentin.dentToString('<?boo?><foo><?huh hah?></foo><?yep?>', {
+    noVersion: true
+  })
+  t.is(doc, `<?boo?>
+<foo>
+  <?huh hah?>
+</foo>
+<?yep?>\n`)
+
+  // make sure we don't add a leading newline for this comment
+  doc = Dentin.dentToString('<!-- cmt --><foo/>', {
+    noVersion: true
+  })
+  t.is(doc, '<!-- cmt -->\n<foo/>\n')
 })
