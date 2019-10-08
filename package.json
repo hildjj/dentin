@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/hildjj/dentin",
   "dependencies": {
+    "chalk": "^3.0.0-beta.1",
     "libxmljs": "0.19.7",
     "word-wrap": "1.2.3",
     "yargs": "^14.0.0"

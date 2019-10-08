@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE foo [
+  <!ENTITY js "EcmaScript">
+  <!ENTITY short "">
+  <!ENTITY logo SYSTEM "images/logo.gif" NDATA gif>
+  <!ENTITY % lists "ul, ol">
+  <!ENTITY % MathML SYSTEM "./mathml3.dtd">
+	<!-- %MathML; -->
+  <?above should have been a PEreference?>
+
+  <!NOTATION jpeg PUBLIC "JPG 1.0">
+  <!ELEMENT foo (bar+)>
+  <!ELEMENT bar (#PCDATA)>
+  <!ELEMENT empty EMPTY>
+  <!ELEMENT any ANY>
+  <!ELEMENT parent (empty)>
+  <!ELEMENT fruit (apple+|orange?)>
+  <!ELEMENT fruits (apple,orange)>
+  <!ATTLIST fruit fruitID ID #REQUIRED>
+  <!ATTLIST foo
+    publisher CDATA #IMPLIED
+    reseller CDATA #FIXED "MyStore"
+    ISBN ID #REQUIRED
+    inPrint (yes|no) "yes">
+  <!NOTATION vrml PUBLIC "VRML 1.0">
+  <!ATTLIST apple lang NOTATION (vrml) #REQUIRED>
+]>
+<foo><bar/></foo>

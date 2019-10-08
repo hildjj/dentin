@@ -1,6 +1,30 @@
 <!-- before 1 -->
 <!-- before 2 -->
 <body>
+<!-- Deserunt ex anim labore nostrud magna. Proident qui
+                  excepteur id id do dolor laboris velit ad magna aute 
+                  proident nostrud aliqua. Mollit aliquip cupidatat culpa non 
+                  enim exercitation reprehenderit velit aliqua. Qui ad 
+                  cupidatat commodo est tempor ea esse. Laboris fugiat ad 
+                  pariatur fugiat ex sunt sunt pariatur deserunt nisi 
+                  incididunt adipisicing voluptate exercitation. Incididunt 
+                  voluptate dolor excepteur pariatur nostrud id Lorem.  Ad 
+                  pariatur occaecat aute pariatur nulla labore deserunt fugiat 
+                  dolor. Qui tempor sit irure aliquip culpa non et tempor ad 
+                  amet ea labore. Minim tempor tempor sunt esse sunt est 
+                  labore eu ea pariatur duis. Ipsum ullamco eiusmod dolore id 
+                  ipsum consectetur duis velit duis. Magna eiusmod sint ea 
+                  sint deserunt ut ipsum voluptate.  Pariatur sint anim 
+                  occaecat velit dolor tempor. Nostrud duis non eu 
+                  exercitation occaecat aliqua eiusmod aute. Cupidatat esse 
+                  nostrud dolore in consequat nisi in. Ipsum ipsum ea non 
+                  culpa consectetur. Exercitation voluptate incididunt duis ex
+                  id quis. Amet aliqua qui ex amet ex nostrud aliqua culpa 
+                  aliqua exercitation. Id ipsum sint Lorem mollit adipisicing. 
+                  Consequat Lorem aliquip consequat pariatur in magna 
+                  incididunt eu. Duis occaecat laboris id non voluptate eu 
+                  amet laboris. Eu in ipsum consectetur consequat duis 
+                  adipisicing exercitation.-->
   <one><!-- inside --></one>
   <one>
   <!-- inside 1 -->
@@ -21,6 +45,22 @@
 <one>
   <!-- bar -->
   foo
+</one>
+<one>
+  foo
+  <!-- bar -->
+  foo
+</one>
+<one>
+  foo<br/>
+  <!-- bar&boo -->
+  foo
+</one>
+<one>
+  foo<br/>
+</one>
+<one>
+foo
 </one>
 </body>
 <!-- after 1 -->

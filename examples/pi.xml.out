@@ -2,6 +2,6 @@
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt"?>
 <?rfc toc="yes"?>
 <!DOCTYPE refs [
-<!ENTITY RFC3629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml">
+  <!ENTITY RFC3629 SYSTEM 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml'>
 ]>
 <rfc>&RFC3629;</rfc>
