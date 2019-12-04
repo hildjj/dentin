@@ -8,10 +8,9 @@ const Dentin = require('../lib/dentin')
 const util = require('util')
 const readdir = util.promisify(fs.readdir)
 const readFile = util.promisify(fs.readFile)
-const {StringWriter} = require('../lib/utils')
 
-test('dentToString', t => {
-  const out = Dentin.dentToString(
+test('dent', t => {
+  const out = Dentin.dent(
     '<foo xmlns:foo="urn:foo" y="n&apos;&amp;>"><foo:bar foo:x="y"/></foo>', {
       colors: false
     })
@@ -34,14 +33,13 @@ test('constructor', t => {
     spaces: 2,
     doubleQuote: false,
     ignore: [],
-    output: null
+    periodSpaces: 2
   })
   t.truthy(d.quote.includes('\''))
-  t.is(typeof d.out.write, 'function')
 })
 
 test('sorting', t => {
-  let doc = Dentin.dentToString(`<foo
+  let doc = Dentin.dent(`<foo
     b='bb'
     xmlns:c='urn:c'
     xmlns:b='urn:b'
@@ -63,7 +61,7 @@ test('sorting', t => {
      xmlns:b='urn:b'
      xmlns:c='urn:c'
      xmlns:d='urn:d'/>\n`)
-  doc = Dentin.dentToString(`<foo
+  doc = Dentin.dent(`<foo
     xmlns:c='urn:c'
     xmlns='urn:a'
     xmlns:b='urn:b'
@@ -79,7 +77,7 @@ test('examples', async t => {
   for (const fx of dir.filter(f => f.endsWith('.xml'))) {
     const input = await readFile(path.join(dn, fx))
     const output = await readFile(path.join(dn, fx + '.out'), 'utf8')
-    const s = Dentin.dentToString(input, {
+    const s = Dentin.dent(input, {
       ignore: [
         'artwork',
         'sourcecode'
@@ -91,13 +89,11 @@ test('examples', async t => {
   }
   for (const fh of dir.filter(f => f.endsWith('.html'))) {
     const expected = await readFile(path.join(dn, fh + '.out'), 'utf8')
-    const output = new StringWriter()
-    await Dentin.dentFile(path.join(dn, fh), {
+    const s = await Dentin.dentFile(path.join(dn, fh), {
       colors: false,
-      margin: 78,
-      output
+      margin: 78
     })
-    t.is(output.read(), expected, fh)
+    t.is(s, expected, fh)
   }
 })
 test('errors', async t => {
@@ -105,13 +101,11 @@ test('errors', async t => {
   const doc = libxmljs.parseHtml('<br>')
   const br = doc.get('body/br')
   br.addChild(new libxmljs.Element(doc, 'p', 'text'))
-  const output = new StringWriter()
   t.throws(() => {
     return Dentin.dent(doc, {
       colors: false,
       html: true,
-      noVersion: true,
-      output
+      noVersion: true
     })
   })
   t.throws(() => {
@@ -123,7 +117,8 @@ test('errors', async t => {
 })
 
 test('html', t => {
-  const doc = Dentin.dentToString('<INPUT DISABLED=TRUE type="text" placeholder="foo=bar"></input>', {
+  const doc = Dentin.dent(`<INPUT DISABLED=TRUE type="text"
+  placeholder="foo=bar"></input>`, {
     colors: false,
     html: true,
     fewerQuotes: true,
@@ -137,7 +132,7 @@ test('html', t => {
 })
 
 test('small spaces', t => {
-  let doc = Dentin.dentToString('<foo><bar/></foo>', {
+  let doc = Dentin.dent('<foo><bar/></foo>', {
     colors: false,
     spaces: 0,
     noVersion: true
@@ -146,7 +141,7 @@ test('small spaces', t => {
 <bar/>
 </foo>\n`)
 
-  doc = Dentin.dentToString(`<foo>
+  doc = Dentin.dent(`<foo>
     <bar>aaaaa\ \
 bbbbb
     ccccc\
@@ -162,7 +157,7 @@ bbbbb
 })
 
 test('PI', t => {
-  let doc = Dentin.dentToString('<?boo?><foo><?huh hah?></foo><?yep?>', {
+  let doc = Dentin.dent('<?boo?><foo><?huh hah?></foo><?yep?>', {
     colors: false,
     noVersion: true
   })
@@ -173,7 +168,7 @@ test('PI', t => {
 <?yep?>\n`)
 
   // make sure we don't add a leading newline for this comment
-  doc = Dentin.dentToString('<!-- cmt --><foo/>', {
+  doc = Dentin.dent('<!-- cmt --><foo/>', {
     colors: false,
     noVersion: true
   })
@@ -182,7 +177,7 @@ test('PI', t => {
 
 test('DTD', t => {
   // short doctypes on one line
-  const doc = Dentin.dentToString(`<?xml version="1.0" standalone="yes"?>
+  const doc = Dentin.dent(`<?xml version="1.0" standalone="yes"?>
 <!DOCTYPE test PUBLIC
   'stuff'
   'things'>
