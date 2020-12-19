@@ -45,5 +45,5 @@ Usage
       -V, --version      Show version number                               [boolean]
 
 
-[![Build Status](https://travis-ci.org/hildjj/dentin.svg?branch=master)](https://travis-ci.org/hildjj/dentin)
+![Node.js CI](https://github.com/hildjj/dentin/workflows/Tests/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/hildjj/dentin/badge.svg?branch=master)](https://coveralls.io/github/hildjj/dentin?branch=master)
