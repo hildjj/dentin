@@ -26,9 +26,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: mstachniuk/ci-skip@v1
-        with:
-          fail-fast: true
       - name: Cache node modules
         uses: actions/cache@v2
         env:
