@@ -1,10 +1,10 @@
 {
   "name": "dentin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "(in)dent XML to make it pretty",
   "main": "lib/dentin.js",
   "bin": {
-    "dentin": "./bin/dentin"
+    "dentin": "bin/dentin"
   },
   "scripts": {
     "test": "ava test/*.ava.js",
