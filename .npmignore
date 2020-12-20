@@ -14,3 +14,4 @@ examples/
 .vscode/
 .eslintrc.js
 test/
+.github/
