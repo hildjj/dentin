@@ -19,9 +19,10 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
+        os: [ubuntu-latest]
 
     env:
-      OS: ${{ runner.os }}
+      OS: ${{ matrix.os }}
       NODE: ${{ matrix.node-version }}
 
     steps:
