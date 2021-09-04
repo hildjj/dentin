@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava')
-const xml = require('libxmljs')
+const xml = require('libxmljs2')
 const Wrapper = require('../lib/wrapper')
 const Dentin = require('../lib/dentin')
 
@@ -16,7 +16,7 @@ test('Create', t => {
 
 test('Comment', t => {
   const doc = xml.parseXml('<f><!-- hi  \t  there --></f>')
-  const comment = doc.childNodes()[0]
+  const [comment] = doc.childNodes()
   t.is(comment.type(), 'comment')
   const d = new Dentin({ colors: false })
   const k = Wrapper.create(d, comment)
@@ -33,7 +33,7 @@ test('Decl', t => {
 ]>
 <foo>&js;</foo>`)
   const dk = Wrapper.create(new Dentin({ colors: false }), doc)
-  const ek = dk.children[0].children[0]
+  const [ek] = dk.children[0].children
   t.is(ek.type, 'entity_decl')
   const eek = Wrapper.create(dk.dentin, ek.node)
   ek.parentWrapper = null
@@ -44,8 +44,8 @@ test('Decl', t => {
 test('Attribute', t => {
   const doc = xml.parseXml('<f a="b"/>')
   const root = doc.root()
-  const a = root.attrs()[0]
-  let k = Wrapper.create(new Dentin({colors: false}), a)
+  const [a] = root.attrs()
+  const k = Wrapper.create(new Dentin({colors: false}), a)
   t.is(k.type, 'attribute')
   const str = ' a=\'b\''
   t.deepEqual(k.print().str, str)
@@ -61,7 +61,7 @@ test('Namespace', t => {
   const nsk = root.namespaces(true).map(ns => Wrapper.create(d, ns))
   const expected = [
     ' xmlns="urn:foo"',
-    ' xmlns:b="urn:bar"'
+    ' xmlns:b="urn:bar"',
   ]
   for (const k of nsk) {
     t.is(k.type, 'namespace')
@@ -96,7 +96,6 @@ test('DTD', t => {
   k = Wrapper.create(d, doc.root().prevSibling())
   t.deepEqual(k.print().str,
     '<!DOCTYPE foo SYSTEM "http://www.w3.org/TR/REC-html40/loose.dtd">\n')
-
 })
 
 test('Element', t => {
