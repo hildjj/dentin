@@ -81,8 +81,8 @@ test('backup', async t => {
   cTxt = await fs.readFile(copy, 'utf8')
   t.is(cTxt, oTxt)
 
-  await fs.rm(copy)
-  await fs.rm(copyTest)
+  await fs.unlink(copy)
+  await fs.unlink(copyTest)
 })
 
 test('default output', async t => {
