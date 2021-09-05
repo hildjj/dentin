@@ -64,7 +64,7 @@ test('backup', async t => {
   const out = path.join(__dirname, '..', 'examples', 'postal.xml.out')
   const config = path.join(__dirname, '..', '.dentin.json')
 
-  await fs.cp(initial, copy)
+  await fs.copyFile(initial, copy)
   await cli.cmd(['-c', config, '--no-colors', '-b', 'test', copy])
   let cTxt = await fs.readFile(copy, 'utf8')
   const oTxt = await fs.readFile(out, 'utf8')
@@ -74,7 +74,7 @@ test('backup', async t => {
   t.is(cTxt, oTxt)
   t.is(ctTxt, iTxt)
 
-  await fs.cp(initial, copy)
+  await fs.copyFile(initial, copy)
   cli = new CLI()
   cli.yargs.fail(false)
   await cli.cmd(['-c', config, '--no-colors', '-b', '.test', copy])
