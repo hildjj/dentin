@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const test = require('ava')
-const libxmljs = require('libxmljs')
+const libxmljs = require('libxmljs2')
 const Dentin = require('../lib/dentin')
 const util = require('util')
 const readdir = util.promisify(fs.readdir)
@@ -11,9 +11,9 @@ const readFile = util.promisify(fs.readFile)
 
 test('dent', t => {
   const out = Dentin.dent(
-    '<foo xmlns:foo="urn:foo" y="n&apos;&amp;>"><foo:bar foo:x="y"/></foo>', {
-      colors: false
-    })
+    '<foo xmlns:foo="urn:foo" y="n&apos;&amp;>"><foo:bar foo:x="y"/></foo>',
+    { colors: false }
+  )
   t.deepEqual(out, `<?xml version='1.0'?>
 <foo y='n&apos;&amp;&gt;' xmlns:foo='urn:foo'>
   <foo:bar foo:x='y'/>
@@ -33,7 +33,7 @@ test('constructor', t => {
     spaces: 2,
     doubleQuote: false,
     ignore: [],
-    periodSpaces: 2
+    periodSpaces: 2,
   })
   t.truthy(d.quote.includes('\''))
 })
@@ -76,44 +76,42 @@ test('examples', async t => {
   t.truthy(dir.length > 0)
   for (const fx of dir.filter(f => f.endsWith('.xml'))) {
     const input = await readFile(path.join(dn, fx))
-    const output = await readFile(path.join(dn, fx + '.out'), 'utf8')
+    const output = await readFile(path.join(dn, `${fx}.out`), 'utf8')
     const s = Dentin.dent(input, {
       ignore: [
         'artwork',
-        'sourcecode'
+        'sourcecode',
       ],
       margin: 78,
-      colors: false
+      colors: false,
     })
     t.is(s, output, fx)
   }
   for (const fh of dir.filter(f => f.endsWith('.html'))) {
-    const expected = await readFile(path.join(dn, fh + '.out'), 'utf8')
+    const expected = await readFile(path.join(dn, `${fh}.out`), 'utf8')
     const s = await Dentin.dentFile(path.join(dn, fh), {
       colors: false,
-      margin: 78
+      margin: 78,
     })
     t.is(s, expected, fh)
   }
 })
 test('errors', async t => {
-  // force a malformed HTML text; the parser doesn't generate these.
+  // Force a malformed HTML text; the parser doesn't generate these.
   const doc = libxmljs.parseHtml('<br>')
   const br = doc.get('body/br')
   br.addChild(new libxmljs.Element(doc, 'p', 'text'))
-  t.throws(() => {
-    return Dentin.dent(doc, {
-      colors: false,
-      html: true,
-      noVersion: true
-    })
-  })
+  t.throws(() => Dentin.dent(doc, {
+    colors: false,
+    html: true,
+    noVersion: true,
+  }))
   t.throws(() => {
     Dentin.dent(true)
   })
-  await t.throwsAsync(() => {
-    return Dentin.dentFile(path.join(__dirname, '..', 'package.json'))
-  })
+  await t.throwsAsync(
+    () => Dentin.dentFile(path.join(__dirname, '..', 'package.json'))
+  )
 })
 
 test('html', t => {
@@ -122,7 +120,7 @@ test('html', t => {
     colors: false,
     html: true,
     fewerQuotes: true,
-    noVersion: true
+    noVersion: true,
   })
   t.is(doc, `<html>
   <body>
@@ -135,14 +133,14 @@ test('small spaces', t => {
   let doc = Dentin.dent('<foo><bar/></foo>', {
     colors: false,
     spaces: 0,
-    noVersion: true
+    noVersion: true,
   })
   t.is(doc, `<foo>
 <bar/>
 </foo>\n`)
 
   doc = Dentin.dent(`<foo>
-    <bar>aaaaa\ \
+    <bar>aaaaa \
 bbbbb
     ccccc\
     ddddd
@@ -151,7 +149,7 @@ bbbbb
     colors: false,
     spaces: -1,
     margin: 15,
-    noVersion: true
+    noVersion: true,
   })
   t.is(doc, '<foo><bar>aaaaa bbbbb ccccc ddddd eeeee fffff</bar></foo>')
 })
@@ -159,7 +157,7 @@ bbbbb
 test('PI', t => {
   let doc = Dentin.dent('<?boo?><foo><?huh hah?></foo><?yep?>', {
     colors: false,
-    noVersion: true
+    noVersion: true,
   })
   t.is(doc, `<?boo?>
 <foo>
@@ -167,22 +165,22 @@ test('PI', t => {
 </foo>
 <?yep?>\n`)
 
-  // make sure we don't add a leading newline for this comment
+  // Make sure we don't add a leading newline for this comment
   doc = Dentin.dent('<!-- cmt --><foo/>', {
     colors: false,
-    noVersion: true
+    noVersion: true,
   })
   t.is(doc, '<!-- cmt -->\n<foo/>\n')
 })
 
 test('DTD', t => {
-  // short doctypes on one line
+  // Short doctypes on one line
   const doc = Dentin.dent(`<?xml version="1.0" standalone="yes"?>
 <!DOCTYPE test PUBLIC
   'stuff'
   'things'>
 <test/>`, {
-    colors: false
+    colors: false,
   })
   t.is(doc, `<?xml version='1.0'?>
 <!DOCTYPE test PUBLIC 'stuff' 'things'>

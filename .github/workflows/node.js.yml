@@ -7,9 +7,9 @@ name: Tests
 
 on:
   push:
-    branches: [master]
+    branches: ["*"]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build:
@@ -18,7 +18,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [12.x, 14.x, 16.x]
+        os: [ubuntu-latest]
+
+    env:
+      OS: ${{ matrix.os }}
+      NODE: ${{ matrix.node-version }}
 
     steps:
       - uses: actions/checkout@v2
@@ -40,19 +45,12 @@ jobs:
             ${{ runner.os }}-
       - run: npm install
       - name: Test ${{ matrix.node-version }}
-        run: npm run lcov
-      - name: Coveralls Parallel
-        uses: coverallsapp/github-action@master
+        run: npm run coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
         with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: node-${{ matrix.node-version }}
-          parallel: true
-  finish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
+          files: coverage/lcov.info
+          env_vars: OS,NODE
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true

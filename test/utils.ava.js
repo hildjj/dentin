@@ -7,14 +7,14 @@ const utils = require('../lib/utils')
 test('setChalkTheme', t => {
   const c = new chalk.Instance({level: 3})
   utils.setChalkTheme(c, {
-    TESTME: '0xbeefee'
+    tESTME: '0xbeefee',
   })
-  t.is(typeof c.TESTME, 'function')
-  const s = c`{TESTME foo}`
+  t.is(typeof c.tESTME, 'function')
+  const s = c`{tESTME foo}`
   t.is(typeof s, 'string')
   t.not(s, 'foo')
-  t.not(s, '{TESTME foo}')
-  const s2 = c.TESTME('foo')
+  t.not(s, '{tESTME foo}')
+  const s2 = c.tESTME('foo')
   t.is(s, s2)
 })
 

@@ -4,15 +4,16 @@ const fs = require('fs')
 const Dentin = require('../lib/dentin')
 const opts = require('../.dentin.json')
 
-;(async () => {
+;(async() => {
   const dir = (await fs.promises.readdir('.'))
     .filter(x => x.endsWith('.xml') || x.endsWith('.html'))
-  dir.forEach(async f => {
-    const s = await Dentin.dentFile(f, Object.assign({}, opts, {
-      output: fs.createWriteStream(f + '.out'),
+  for (const f of dir) {
+    const str = await Dentin.dentFile(f, {
+      ...opts,
       colors: false,
-      periodSpaces: 2
-    }))
-  })
+      periodSpaces: 2,
+    })
+    await fs.promises.writeFile(`${f}.out`, str, "utf8")
+  }
 })()
 

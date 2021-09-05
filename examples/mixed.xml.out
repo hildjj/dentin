@@ -1,6 +1,11 @@
 <?xml version='1.0'?>
 <top>
   <foo>
+    blah <b>Amet</b> sint labore eiusmod dolore exercitation qui officia ex
+    laboris ad voluptate blah Amet sint labore eiusmod dolore exercitation qui
+    officia ex laboris ad voluptate
+  </foo>
+  <foo>
     bar<b id='boo'>boo</b> blah Amet sint labore eiusmod dolore exercitation
     qui officia ex laboris ad voluptate [<a href='#boo'>BOO</a>] foo <cook/>.
   </foo>
