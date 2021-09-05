@@ -134,3 +134,15 @@ test('CDATA', t => {
   t.deepEqual(k.print().str,
     '<![CDATA[ bahbaaaaaaaahhhhhloooooooohaaaaaaahaaaa ]]>')
 })
+
+test('Processing Instruction', t => {
+  let doc = xml.parseXml('<foo><baz/><?bar?> boo</foo>')
+  const d = new Dentin({colors: false})
+  const [, k] = Wrapper.create(d, doc.root()).children
+  t.truthy(k.parentMixed())
+  t.deepEqual(k.print().str, '\n<?bar?>\n')
+  doc = xml.parseXml('<foo>   <?bar?> boo</foo>')
+  const [, p] = Wrapper.create(d, doc.root()).children
+  t.truthy(p.parentMixed())
+  t.deepEqual(p.print().str, '<?bar?>\n')
+})
