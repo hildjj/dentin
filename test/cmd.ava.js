@@ -59,8 +59,8 @@ test('backup', async t => {
   cli.yargs.fail(false)
 
   const initial = path.join(__dirname, '..', 'examples', 'postal.xml')
-  const copy = path.join(__dirname, '..', 'examples', 'postal.copy.xml')
-  const copyTest = path.join(__dirname, '..', 'examples', 'postal.copy.test')
+  const copy = path.join(__dirname, '..', 'examples', 'postal.xml.copy')
+  const copyTest = path.join(__dirname, '..', 'examples', 'postal.xml.test')
   const out = path.join(__dirname, '..', 'examples', 'postal.xml.out')
   const config = path.join(__dirname, '..', '.dentin.json')
 
