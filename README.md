@@ -15,12 +15,12 @@ Usage
 -----
 
     dentin [files...]
-    
+
     Indent XML or HTML files
-    
+
     Positionals:
       files  The files to read. To read stdin explicitly, use "-".  [default: stdin]
-    
+
     Options:
       -i, --ignore       Ignore elements with these names, do not word-wrap them
                                                                              [array]
@@ -45,5 +45,5 @@ Usage
       -V, --version      Show version number                               [boolean]
 
 
-![Node.js CI](https://github.com/hildjj/dentin/workflows/Tests/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/hildjj/dentin/badge.svg?branch=master)](https://coveralls.io/github/hildjj/dentin?branch=master)
+[![Tests](https://github.com/hildjj/dentin/actions/workflows/node.js.yml/badge.svg)](https://github.com/hildjj/dentin/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/hildjj/dentin/branch/main/graph/badge.svg?token=6wmemF5SSs)](https://codecov.io/gh/hildjj/dentin)
