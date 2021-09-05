@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 'use strict'
-const cmd = require('../lib/cmd')
-cmd(process.argv.slice(2)).catch(console.error)
+const CLI = require('../lib/cmd')
+new CLI().cmd(process.argv.slice(2)).catch(console.error)
