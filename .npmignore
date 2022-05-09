@@ -15,3 +15,4 @@ examples/
 .eslintrc.js
 test/
 .github/
+.ncurc.json
