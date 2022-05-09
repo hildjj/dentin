@@ -1,6 +1,6 @@
 {
   "name": "dentin",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "(in)dent XML to make it pretty",
   "main": "lib/dentin.js",
   "bin": {
