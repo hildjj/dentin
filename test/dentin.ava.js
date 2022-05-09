@@ -12,7 +12,7 @@ const readFile = util.promisify(fs.readFile)
 test('dent', t => {
   const out = Dentin.dent(
     '<foo xmlns:foo="urn:foo" y="n&apos;&amp;>"><foo:bar foo:x="y"/></foo>',
-    { colors: false }
+    {colors: false}
   )
   t.deepEqual(out, `<?xml version='1.0'?>
 <foo y='n&apos;&amp;&gt;' xmlns:foo='urn:foo'>

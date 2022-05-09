@@ -18,7 +18,7 @@ test('Comment', t => {
   const doc = xml.parseXml('<f><!-- hi  \t  there --></f>')
   const [comment] = doc.childNodes()
   t.is(comment.type(), 'comment')
-  const d = new Dentin({ colors: false })
+  const d = new Dentin({colors: false})
   const k = Wrapper.create(d, comment)
   t.truthy(k)
   t.is(k.type, 'comment')
@@ -32,7 +32,7 @@ test('Decl', t => {
   <!ENTITY js "EcmaScript">
 ]>
 <foo>&js;</foo>`)
-  const dk = Wrapper.create(new Dentin({ colors: false }), doc)
+  const dk = Wrapper.create(new Dentin({colors: false}), doc)
   const [ek] = dk.children[0].children
   t.is(ek.type, 'entity_decl')
   const eek = Wrapper.create(dk.dentin, ek.node)
