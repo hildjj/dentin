@@ -8,7 +8,7 @@ const {Transform} = require('stream')
 
 class Buf extends Transform {
   constructor(opts = {}) {
-    const { errorToThrow, ...others } = opts
+    const {errorToThrow, ...others} = opts
     super({
       ...others,
       encoding: 'utf8',

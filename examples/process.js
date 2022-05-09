@@ -13,7 +13,7 @@ const opts = require('../.dentin.json')
       colors: false,
       periodSpaces: 2,
     })
-    await fs.promises.writeFile(`${f}.out`, str, "utf8")
+    await fs.promises.writeFile(`${f}.out`, str, 'utf8')
   }
 })()
 
