@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+'use strict';
+const CLI = require('../lib/cmd');
+new CLI()
+  .cmd(process.argv.slice(2))
+  .catch(console.error);
