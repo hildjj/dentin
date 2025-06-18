@@ -12,6 +12,7 @@ test('Create', t => {
   t.is(typeof k, 'object');
   t.is(k.node, null);
   t.is(k.parentWrapper, null);
+  t.throws(() => Wrapper.create(new Dentin(), {type: null}));
 });
 
 test('Comment', t => {
