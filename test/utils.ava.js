@@ -1,16 +1,14 @@
-'use strict';
-
-const test = require('ava');
-const chalk = require('chalk');
-const utils = require('../lib/utils');
+import {extract, setChalkTheme} from '../lib/utils.js';
+import {Chalk} from 'chalk';
+import test from 'ava';
 
 test('setChalkTheme', t => {
-  const c = new chalk.Instance({level: 3});
-  utils.setChalkTheme(c, {
+  const c = new Chalk({level: 3});
+  const tmp = setChalkTheme(c, {
     tESTME: '0xbeefee',
   });
   t.is(typeof c.tESTME, 'function');
-  const s = c`{tESTME foo}`;
+  const s = tmp`{tESTME foo}`;
   t.is(typeof s, 'string');
   t.not(s, 'foo');
   t.not(s, '{tESTME foo}');
@@ -19,8 +17,8 @@ test('setChalkTheme', t => {
 });
 
 test('extract', t => {
-  t.is(utils.extract(null, ['foo', 'bar']), null);
-  t.is(utils.extract(null, null), null);
-  t.deepEqual(utils.extract({a: 1}, null), {});
-  t.deepEqual(utils.extract({foo: 1, baz: 2}, ['foo', 'bar']), {foo: 1});
+  t.is(extract(null, ['foo', 'bar']), null);
+  t.is(extract(null, null), null);
+  t.deepEqual(extract({a: 1}, null), {});
+  t.deepEqual(extract({foo: 1, baz: 2}, ['foo', 'bar']), {foo: 1});
 });

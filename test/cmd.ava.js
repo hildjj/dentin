@@ -1,10 +1,12 @@
-'use strict';
+import {dirname, join} from 'node:path';
+import {CLI} from '../lib/cmd.js';
+import {Transform} from 'node:stream';
+import {fileURLToPath} from 'node:url';
+import fs from 'node:fs/promises';
+import test from 'ava';
 
-const path = require('node:path');
-const test = require('ava');
-const CLI = require('../lib/cmd');
-const fs = require('node:fs').promises;
-const {Transform} = require('node:stream');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 class Buf extends Transform {
   constructor(opts = {}) {
@@ -33,7 +35,7 @@ class Buf extends Transform {
 test('cmd', async t => {
   const cli = new CLI();
   const s = await cli.cmd([
-    path.join(__dirname, '..', 'examples', 'postal.xml'),
+    join(__dirname, '..', 'examples', 'postal.xml'),
     '-o',
     '/dev/null',
     '-i',
@@ -58,11 +60,11 @@ test('backup', async t => {
   let cli = new CLI();
   cli.yargs.fail(false);
 
-  const initial = path.join(__dirname, '..', 'examples', 'postal.xml');
-  const copy = path.join(__dirname, '..', 'examples', 'postal.xml.copy');
-  const copyTest = path.join(__dirname, '..', 'examples', 'postal.xml.test');
-  const out = path.join(__dirname, '..', 'examples', 'postal.xml.out');
-  const config = path.join(__dirname, '..', '.dentin.json');
+  const initial = join(__dirname, '..', 'examples', 'postal.xml');
+  const copy = join(__dirname, '..', 'examples', 'postal.xml.copy');
+  const copyTest = join(__dirname, '..', 'examples', 'postal.xml.test');
+  const out = join(__dirname, '..', 'examples', 'postal.xml.out');
+  const config = join(__dirname, '..', '.dentin.json');
 
   await fs.copyFile(initial, copy);
   await cli.cmd(['-c', config, '--no-colors', '-b', 'test', copy]);
@@ -88,8 +90,8 @@ test('backup', async t => {
 test('default output', async t => {
   const cli = new CLI();
   cli.defaultOutput = new Buf();
-  await cli.cmd([path.join(__dirname, '..', 'examples', 'postal.xml')]);
-  const out = path.join(__dirname, '..', 'examples', 'postal.xml.out');
+  await cli.cmd([join(__dirname, '..', 'examples', 'postal.xml')]);
+  const out = join(__dirname, '..', 'examples', 'postal.xml.out');
   const expected = await fs.readFile(out, 'utf8');
   t.is(cli.defaultOutput.read(), expected);
 });

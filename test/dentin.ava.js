@@ -1,13 +1,12 @@
-'use strict';
+import {Element, parseHtml} from 'libxmljs2';
+import {dirname, join} from 'node:path';
+import {Dentin} from '../lib/dentin.js';
+import {fileURLToPath} from 'node:url';
+import fs from 'node:fs/promises';
+import test from 'ava';
 
-const fs = require('node:fs');
-const path = require('node:path');
-const test = require('ava');
-const libxmljs = require('libxmljs2');
-const Dentin = require('../lib/dentin');
-const util = require('node:util');
-const readdir = util.promisify(fs.readdir);
-const readFile = util.promisify(fs.readFile);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 test('dent', t => {
   const out = Dentin.dent(
@@ -26,14 +25,15 @@ test('constructor', t => {
   delete d.opts.theme;
   t.deepEqual(d.opts, {
     colors: true,
-    html: false,
-    fewerQuotes: false,
-    noVersion: false,
-    margin: 78,
-    spaces: 2,
     doubleQuote: false,
+    fewerQuotes: false,
+    html: false,
     ignore: [],
+    margin: 78,
+    noVersion: false,
     periodSpaces: 2,
+    right: 0,
+    spaces: 2,
   });
   t.truthy(d.quote.includes('\''));
 });
@@ -71,12 +71,12 @@ test('sorting', t => {
     '<foo a="aa" b="bb" xmlns="urn:a" xmlns:b="urn:b" xmlns:c="urn:c"/>\n');
 });
 test('examples', async t => {
-  const dn = path.join(__dirname, '..', 'examples');
-  const dir = await readdir(dn);
+  const dn = join(__dirname, '..', 'examples');
+  const dir = await fs.readdir(dn);
   t.truthy(dir.length > 0);
   for (const fx of dir.filter(f => f.endsWith('.xml'))) {
-    const input = await readFile(path.join(dn, fx));
-    const output = await readFile(path.join(dn, `${fx}.out`), 'utf8');
+    const input = await fs.readFile(join(dn, fx));
+    const output = await fs.readFile(join(dn, `${fx}.out`), 'utf8');
     const s = Dentin.dent(input, {
       ignore: [
         'artwork',
@@ -88,8 +88,8 @@ test('examples', async t => {
     t.is(s, output, fx);
   }
   for (const fh of dir.filter(f => f.endsWith('.html'))) {
-    const expected = await readFile(path.join(dn, `${fh}.out`), 'utf8');
-    const s = await Dentin.dentFile(path.join(dn, fh), {
+    const expected = await fs.readFile(join(dn, `${fh}.out`), 'utf8');
+    const s = await Dentin.dentFile(join(dn, fh), {
       colors: false,
       margin: 78,
     });
@@ -98,9 +98,9 @@ test('examples', async t => {
 });
 test('errors', async t => {
   // Force a malformed HTML text; the parser doesn't generate these.
-  const doc = libxmljs.parseHtml('<br>');
+  const doc = parseHtml('<br>');
   const br = doc.get('body/br');
-  br.addChild(new libxmljs.Element(doc, 'p', 'text'));
+  br.addChild(new Element(doc, 'p', 'text'));
   t.throws(() => Dentin.dent(doc, {
     colors: false,
     html: true,
@@ -110,7 +110,7 @@ test('errors', async t => {
     Dentin.dent(true);
   });
   await t.throwsAsync(
-    () => Dentin.dentFile(path.join(__dirname, '..', 'package.json'))
+    () => Dentin.dentFile(join(__dirname, '..', 'package.json'))
   );
 });
 
