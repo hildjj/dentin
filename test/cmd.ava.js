@@ -44,6 +44,8 @@ test('cmd', async t => {
     'sourcecode',
     '-s',
     '4',
+    '-m',
+    '78',
   ]);
   t.is(s, undefined);
 });
@@ -67,7 +69,7 @@ test('backup', async t => {
   const config = join(__dirname, '..', '.dentin.json');
 
   await fs.copyFile(initial, copy);
-  await cli.cmd(['-c', config, '--no-colors', '-b', 'test', copy]);
+  await cli.cmd(['-c', config, '--no-colors', '-b', 'test', '-m', '78', copy]);
   let cTxt = await fs.readFile(copy, 'utf8');
   const oTxt = await fs.readFile(out, 'utf8');
   const iTxt = await fs.readFile(initial, 'utf8');
@@ -79,7 +81,7 @@ test('backup', async t => {
   await fs.copyFile(initial, copy);
   cli = new CLI();
   cli.yargs.fail(false);
-  await cli.cmd(['-c', config, '--no-colors', '-b', '.test', copy]);
+  await cli.cmd(['-c', config, '--no-colors', '-b', '.test', '-m', '78', copy]);
   cTxt = await fs.readFile(copy, 'utf8');
   t.is(cTxt, oTxt);
 
@@ -90,7 +92,7 @@ test('backup', async t => {
 test('default output', async t => {
   const cli = new CLI();
   cli.defaultOutput = new Buf();
-  await cli.cmd([join(__dirname, '..', 'examples', 'postal.xml')]);
+  await cli.cmd(['-m', '78', join(__dirname, '..', 'examples', 'postal.xml')]);
   const out = join(__dirname, '..', 'examples', 'postal.xml.out');
   const expected = await fs.readFile(out, 'utf8');
   t.is(cli.defaultOutput.read(), expected);

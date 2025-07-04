@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-'use strict';
-const CLI = require('../lib/cmd');
+import {CLI} from '../lib/cmd.js';
 new CLI()
   .cmd(process.argv.slice(2))
   .catch(console.error);
