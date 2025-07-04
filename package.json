@@ -4,7 +4,7 @@
   "description": "(in)dent XML to make it pretty",
   "main": "lib/dentin.js",
   "bin": {
-    "dentin": "bin/dentin"
+    "dentin": "bin/dentin.js"
   },
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hildjj/dentin.git"
+    "url": "git+https://github.com/hildjj/dentin.git"
   },
   "keywords": [
     "html",
