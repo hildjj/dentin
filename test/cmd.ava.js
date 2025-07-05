@@ -55,6 +55,7 @@ test('bad input', async t => {
   cli.yargs.fail(false);
   await t.throwsAsync(() => cli.cmd(['-o', 'foo', '-o', 'bar']));
   await t.throwsAsync(() => cli.cmd(['-b', 'foo', '-b', 'bar']));
+  await t.throwsAsync(() => cli.cmd(['-b']));
   await t.throwsAsync(() => cli.cmd(['-o']));
 });
 
@@ -92,7 +93,7 @@ test('backup', async t => {
 test('default output', async t => {
   const cli = new CLI();
   cli.defaultOutput = new Buf();
-  await cli.cmd(['-m', '78', join(__dirname, '..', 'examples', 'postal.xml')]);
+  await cli.cmd(['-m', '78', '--no-colors', join(__dirname, '..', 'examples', 'postal.xml')]);
   const out = join(__dirname, '..', 'examples', 'postal.xml.out');
   const expected = await fs.readFile(out, 'utf8');
   t.is(cli.defaultOutput.read(), expected);
