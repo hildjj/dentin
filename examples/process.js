@@ -9,7 +9,7 @@ const opts = JSON.parse(
   await fs.readFile(path.resolve(__dirname, '../.dentin.json'), 'utf8')
 );
 
-(async() => {
+(async () => {
   const dir = (await fs.readdir(__dirname))
     .filter(x => x.endsWith('.xml') || x.endsWith('.html'));
   for (const fn of dir) {
