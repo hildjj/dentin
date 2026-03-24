@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "test": "c8 ava --serial test/*.ava.js",
     "types": "tsc",
-    "examples": "node examples/process.js"
+    "examples": "node examples/process.js",
+    "build": "npm run types && npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
@@ -39,23 +40,23 @@
     "@cto.af/linebreak": "4.0.3",
     "@cto.af/string-width": "5.0.1",
     "chalk": "^5.6.2",
-    "chalk-template": "1.1.2",
-    "libxmljs2": "0.37.0",
+    "chalk-template": "^1.1.2",
+    "libxmljs2": "^0.37.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@cto.af/eslint-config": "^6.2.5",
-    "@eslint/markdown": "7.5.1",
-    "@types/node": "25.3.3",
-    "@types/yargs": "17.0.35",
+    "@eslint/markdown": "^7.5.1",
+    "@types/node": "^25.5.0",
+    "@types/yargs": "^17.0.35",
     "ava": "^7.0.0",
-    "eslint": "^10.0.2",
-    "eslint-plugin-jsdoc": "^62.7.1",
+    "eslint": "^10.1.0",
+    "eslint-plugin-jsdoc": "^62.8.0",
     "eslint-plugin-node": "^11.1.0",
-    "superc8": "12.2.4",
-    "typescript": "5.9.3"
+    "superc8": "^12.3.1",
+    "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": ">=20"
   }
