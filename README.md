@@ -1,3 +1,12 @@
+# THIS PACKAGE IS NO LONGER MAINTAINED
+
+The XML [library](https://github.com/marudor/libxmljs2) I was using is no
+longer maintained, and does not work in the latest versions of node.
+
+Please look at
+[expat-wasm-dom](https://github.com/hildjj/expat-wasm-dom#readme) and its
+`node.toString({pretty: true})` method to see if it will meet your needs.
+
 (In)dent XML and HTML
 =====================
 
